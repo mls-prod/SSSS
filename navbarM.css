@@ -1,11 +1,11 @@
 .navbar {
     display: flex; justify-content: space-around; align-items: center;
-    width: 100%; max-width: 400px; height: 100px;
+    width: 100%; max-width: 550px; height: 100px;
     background-color: rgba(42, 42, 42, 0.6); border-radius: 15px;
-    -webkit-backdrop-filter: blur(15px); backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(15px); backdrop-filter: blur(25px);
     position: fixed; bottom: 0px; left: 0; right: 0; margin: 0 auto;
-    z-index: 1001; border: 1px solid #404040; padding: 0 1px; box-sizing: border-box;
-    transform: translate(1px, 10px); 
+    z-index: 10; border: 1px  padding: 0 1px; box-sizing: border-box;
+    transform: translate(0px, 9px); 
 }
 .nav-button {
     background: none; border: none; cursor: pointer; padding: 5px;
@@ -28,7 +28,7 @@
        Мы можем также использовать комбинацию hue-rotate и sepia/saturate для достижения нужного оттенка красного,
        но для простоты, давайте попробуем сначала простой вариант.
     */
-    filter: sepia(100%) hue-rotate(0deg) brightness(1) saturate(10000%); /* Пример настройки для красного */
+    filter: sepia(100%) hue-rotate(0deg) brightness(1) saturate(5000%); /* Пример настройки для красного */
     /* Альтернативный вариант, если изображение изначально черное и вы хотите его сделать красным */
     /* filter: hue-rotate(0deg) brightness(0.8) saturate(100%); */
 }

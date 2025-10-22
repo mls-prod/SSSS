@@ -10,6 +10,172 @@ top: 4%;
 left: 88%;
 }
 
+
+/* Стили для кнопки удаления сертификата */
+.delete-cert-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px; /* Размер иконки (например, корзины или крестика) */
+    color: #ff3b30; /* Красный цвет */
+    margin-left: 15px; /* Отступ слева */
+    padding: 5px;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.delete-cert-button:hover {
+    opacity: 1;
+}
+
+
+/* --- Новые стили для импорта сертификатов --- */
+.import-section-wrapper {
+    margin-top: 25px; /* Отступ сверху */
+    padding-top: 25px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: center; /* Центрируем кнопку */
+    width: 100%;
+}
+
+.import-button-centered {
+    padding: 15px 150px; /* Чуть больше */
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: 1000;
+    cursor: pointer;
+    border: none;
+    background-color: #E83253; /* iOS синий */
+    color: #fff;
+}
+
+.import-button-centered:hover {
+    background-color: #E83253;
+}
+
+/* --- Модальное окно ввода пароля --- */
+#password-modal.modal {
+    background-color: rgba(0,0,0,0.6); /* Более темный фон */
+    backdrop-filter: blur(15px);
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1000; /* Убедитесь, что оно поверх других модалок */
+}
+
+#password-modal.modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+#password-modal .modal-content {
+    background-color: #161616;
+    border-radius: 15px; /* Полностью скругленное */
+    width: 100%;
+    max-width: 400px; /* Меньше, чем обычные модалки */
+    margin: auto; /* Центрирование */
+    padding: 0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+}
+
+#password-modal .modal-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+#password-modal .modal-header h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+    text-align: center;
+    margin: 0;
+}
+
+#password-modal .modal-header .close-modal {
+    font-size: 30px;
+    color: #ff3b30;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+    position: absolute; /* Позиционируем кнопку закрытия */
+    top: 12px;
+    right: 15px;
+}
+#password-modal .modal-header .close-modal:hover {
+    opacity: 1;
+}
+
+#password-modal .modal-body {
+    padding: 20px;
+    text-align: center;
+}
+
+#password-modal label {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 10px;
+    display: block; /* Располагаем label над input */
+}
+
+#password-modal input[type="password"] {
+    width: calc(100% - 20px); /* Учитываем padding */
+    padding: 12px 10px;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+#password-modal input[type="password"]::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+#password-modal .modal-footer {
+    display: flex;
+    justify-content: space-between; /* Cancel и Import по краям */
+    padding: 15px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+#password-modal button {
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+    border: none;
+}
+
+#password-modal #cancel-password-modal {
+    background-color: rgba(255, 59, 48, 0.2);
+    color: #ff3b30;
+}
+
+#password-modal #cancel-password-modal:hover {
+    background-color: rgba(255, 59, 48, 0.3);
+}
+
+#password-modal #confirm-password-modal {
+    background-color: #007aff;
+    color: #ffffff;
+}
+
+#password-modal #confirm-password-modal:hover {
+    background-color: #005ecb;
+}
+
+
+
 /* --- Стили для модального окна выбора IPA и сертификата (внизу экрана) --- */
 #ipa-cert-select-modal.modal {
     background-color: rgba(0,0,0,0.4);
@@ -625,7 +791,7 @@ left: 88%;
 }
 
 .progress-stats {
-    font-size: 12px;
+    font-size: 14px;
     color: #ccc;
     margin-bottom: 5px;
 }

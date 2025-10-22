@@ -7,6 +7,7 @@
 .repo-apps-list::-webkit-scrollbar,
 body::-webkit-scrollbar {
     display: none;
+    scrollbar-width: none;
 }
 
 /* Для Firefox */
@@ -20,7 +21,14 @@ body {
     -ms-overflow-style: none; /* Для Internet Explorer и Edge */
 }
 
+html {
+  margin: 0px;
+  padding: 0px;
+  font-family: helvetica;
+  background-color: #161616;
+  color: #161616;
 
+}
 
 /* Общие стили */
 body {
@@ -36,8 +44,11 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    overflow:hidden;
+
     
 }
+
 
 h1 {
   margin-left: 1px;
@@ -45,7 +56,7 @@ h1 {
   color: #fff;
 }
 /* Основная шапка с заголовком Scarlet по центру */
-.main-header {
+.main-header  {
     height: 0px; /* Высота шапки */
     display: flex;
     justify-content: center;
@@ -57,6 +68,7 @@ h1 {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    
 }
 
 .main-header .header-title {
@@ -73,7 +85,9 @@ main {
     padding: 20px;
     padding-top: 90px; /* Отступ сверху, чтобы контент не перекрывался шапкой */
     padding-bottom: 150px; /* Отступ, чтобы контент не перекрывался навбаром */
-    box-sizing: border-box;
+    box-sizing: border-box
+    scrollbar-width: none;
+    
 }
 
 /* Стили для страниц */
@@ -146,7 +160,7 @@ main {
 
 /* Список приложений - обычный */
 .app-list {
-    margin-bottom: 20px;
+    
 }
 
 .app-list-items {
@@ -186,11 +200,11 @@ main {
 .app-item.regular .app-name {
     font-size: 16px;
     font-weight: bold;
-    margin-bottom: 3px;
+    margin-bottom: 5px;
 }
 
 .app-item.regular .app-developer {
-    font-size: 13px;
+    font-size: 10px;
     color: rgba(255, 255, 255, 0.7);
 }
 
@@ -583,6 +597,7 @@ main {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 25px;
+    
 }
 
 .page-header {
@@ -594,11 +609,13 @@ main {
     position: sticky; /* Фиксируем шапку */
     top: 0;
     z-index: 1000;
+    
 }
 
 .header-left, .header-right {
     display: flex;
     align-items: center;
+    
 }
 
 .icon-button {
@@ -611,6 +628,7 @@ main {
     padding: 8px;
     border-radius: 10%;
     transform: translate(320px, -100px); 
+    
 }
 
 .icon-button:hover { 
@@ -655,6 +673,7 @@ main {
     height: 50px;
     object-fit: contain;
     border-radius: 30%;
+    margin-left: 5px;
 }
 
 .aapp-item, .repo-item {
@@ -922,50 +941,9 @@ main {
     margin-top: 5px;
 }
 
-/* Адаптивность */
-@media (max-width: 768px) {
-    .featured-apps-list {
-        justify-content: center;
-    }
-    .app-item.featured {
-        width: 45%;
-        min-width: unset;
-    }
-    .navbar {
-        width: 90%;
-    }
-    .main-header {
-        height: 60px;
-    }
-    .main-header .header-title {
-        font-size: 28px;
-    }
-    main {
-        padding-top: 80px;
-    }
-}
-
-@media (max-width: 480px) {
-    .main-header .header-title {
-        font-size: 24px;
-    }
-    .navbar {
-        height: 50px;
-        bottom: 10px;
-    }
-    .nav-button {
-        width: 35px;
-        height: 35px;
-        margin: 0 3px;
-    }
-    .nav-button img {
-        width: 24px;
-        height: 24px;
-    }
-    .app-item.featured {
-        width: 80%;
-    }
-    main {
-        padding-bottom: 70px;
-    }
+h5 {
+  margin-left: 130px;
+  margin-top: -48px;
+  font-size: 15px;
+  color: #EB3355;
 }

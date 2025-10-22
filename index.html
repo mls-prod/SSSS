@@ -16,20 +16,25 @@
             <!-- Главная страница -->
         <div id="home-page" class="page active">
 
-    <h1>Scarlet</h1><a class="""></a>
+    <h1>Scarlet</h1>
+   <h5>beta</h5>
+    
       <div class="slider-container">
     <div class="slider-list">
 	  <div class="slider-item active"><img src="banner-1.png"></div>
+	
 
 	  
 	   <div class="slider-indicators"></div>
-	 
+
             
                 </div>
             </div>
 
 
             <section class="app-list">
+  
+   
                 <h2>Jailbreaks</h2>
                 <div class="app-list-items" id="all-apps-container">
                     <!-- Здесь будут все приложения -->
@@ -56,7 +61,7 @@
     <div class="app-info-section-below-banner">
         <!-- 1. Иконка слева -->
         <div class="app-icon-wrapper">
-            <img id="app-detail-icon" class="app-icon" src="https://raw.githubusercontent.com/DebianArch64/Scarlet/refs/heads/master/icon.png" alt="Иконка приложения">
+            <img id="app-detail-icon" class="app-icon" src="https://raw.githubusercontent.com/DebianArch64/Scarlet/refs/heads/master/icon.png" alt="ICON">
         </div>
 
         <!-- 2. Основная информация (Имя, Разработчик, Версия, Вес) -->
@@ -70,8 +75,8 @@
 
         <!-- 3. Кнопка загрузки справа -->
         <div class="app-details-right">
-             <button class="download-button-png" id="download-button-detail" aria-label="Скачать приложение">
-                <img src="b-install.png" alt="Скачать">
+             <button class="download-button-png" id="download-button-detail" aria-label="DOWN SCR">
+                <img src="b-install.png" alt="DOWN">
                 
             </button>
         </div>
@@ -178,11 +183,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Add Repository</h2>
-                <span class="close-modal">&times;</span>
+            
             </div>
             <div class="modal-body">
-                <label for="repo-url-input">JSON Repository Link:</label>
-                <input type="text" id="repo-url-input" placeholder="https://example.com/repo.json">
+                <label for="repo-url-input">Repo Link</label>
+                <input type="text" id="repo-url-input" placeholder="https://usescarlet.com/repo.json">
             </div>
             <div class="modal-footer">
                 <button id="cancel-add-repo">Cancel</button>
@@ -205,9 +210,9 @@
 <!-- ======================== -->
 <div id="download-modal" class="modal">
     <div class="modal-content ios-modal">
-        <div class="modal-header ios-modal-header">
-            <button id="close-modal-btn" class="close-button" aria-label="Закрыть">&times;</button>
-            <h2 class="ios-modal-title">Загрузка</h2>
+        <div class=" ios-modal-header">
+            
+            
             <span></span> <!-- Пустой элемент для выравнивания -->
         </div>
         <div class="modal-body ios-modal-body">
@@ -228,87 +233,58 @@
                         <p id="modal-app-developer">Developer</p>
                     </div>
                 </div>
-                <div class="app-info-right">
-                    <span id="modal-app-size">0.0 MB</span>
+             
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-    <!-- Новое модальное окно для управления сертификатами -->
-    <div id="cert-manager-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Certificate Manager</h2>
-                <span class="close-modal" id="close-cert-modal">&times;</span>
-            </div>
-            <div class="modal-body">
-                <p>This section allows you to manage your certificates. (Functionality not yet implemented)</p>
-                <!-- Здесь может быть список сертификатов и кнопки управления -->
-            </div>
-            <div class="modal-footer">
-                <button id="cancel-cert-manager">Cancel</button>
-                <button id="confirm-cert-manager">Manage</button> <!-- Или "OK" -->
-            </div>
-        </div>
-    </div>
+    
 
 
-    <!-- Модальное окно выбора IPA и Сертификата -->
-    <div id="ipa-cert-select-modal" class="modal">
-        <div class="modal-content ios-modal cert-modal-bottom"> <!-- Добавлен класс cert-modal-bottom -->
-            <div class="modal-header ios-modal-header">
-                <h2 class="ios-modal-title">Select IPA and Certificate</h2>
-                <span class="close-modal" id="close-ipa-cert-modal">&times;</span> <!-- Закрытие -->
-            </div>
-            <div class="modal-body ios-modal-body">
-                <div class="ipa-info">
-                    <p>IPA File: <strong id="selected-ipa-name">None selected</strong></p>
-                </div>
-                <div class="cert-selection">
-                    <p>Select a Certificate:</p>
-                    <div class="cert-list" id="cert-list-for-selection">
-                        <!-- Список сертификатов будет здесь -->
-                        <p class="empty-list-message">No certificates found. Please import them.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button id="cancel-ipa-cert-selection">Cancel</button>
-                <button id="confirm-ipa-cert-selection">Install</button>
-            </div>
-        </div>
-    </div>
+    
 
     <!-- Модальное окно управления Сертификатами (Manager Cert) -->
     <div id="certificate-manager-modal" class="modal">
         <div class="modal-content ios-modal"> <!-- Используем стили iOS модалки -->
             <div class="modal-header">
                 <h2>Certificate Manager</h2>
-                <span class="close-modal" id="close-manager-modal">&times;</span>
+               
             </div>
             <div class="modal-body">
-                <div class="cert-list-manager" id="cert-list-manager">
+                  <div class="cert-list-manager" id="cert-list-manager">
                     <!-- Список сертификатов будет здесь -->
                     <p class="empty-list-message">No certificates imported yet.</p>
                 </div>
-                <div class="import-cert-section">
-                    <h4>Import Certificate</h4>
-                    <div class="import-buttons">
-                        <button id="import-p12-button" class="import-button">Import .p12</button>
-                        <button id="import-mobileprovision-button" class="import-button">Import .mobileprovision</button>
-                    </div>
+
+                <!-- Новая секция импорта -->
+                <div class="import-section-wrapper">
+                    <button id="import-certificate-main-button" class="import-button-centered">Import Certificate</button>
                     <input type="file" id="p12FileInput" accept=".p12" style="display: none;">
                     <input type="file" id="mobileprovisionFileInput" accept=".mobileprovision" style="display: none;">
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button id="close-manager-footer-button">Close</button>
-                <!-- Кнопка Import Cert может быть в import-cert-section -->
-            </div>
         </div>
     </div>
+ </div>
+
+<!-- Модальное окно ввода пароля -->
+<div id="password-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="password-modal-title">Enter Password</h2>
+            <span class="close-modal" id="close-password-modal">&times;</span>
+        </div>
+        <div class="modal-body">
+            <label for="password-input">Password for .p12 file:</label>
+            <input type="password" id="password-input" placeholder="Enter password">
+        </div>
+        <div class="modal-footer">
+            <button id="cancel-password-modal">Cancel</button>
+            <button id="confirm-password-modal">Import</button>
+        </div>
+    </div>
+</div>
 
 
 
@@ -326,8 +302,13 @@ img { pointer-events: none; }
     </nav>
  </div>
 
+
+
+
+    <script src="certmg.js"></script>
     <script src="script.js"></script>
     <script src="details.js"></script>
-    <script src="certmg.js"></script>
+    <script src="sw.js"></script>
+ 
 </body>
 </html>

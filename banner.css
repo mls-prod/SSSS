@@ -1,9 +1,13 @@
       .slider-container {
       width: 100%;
+      height: 110%;
       overflow: auto;
       position: relative;
       scroll-snap-type: x mandatory;
+      scrollbar-width: none
     }
+    
+    
     
     .slider-list {
       display: flex;
@@ -72,9 +76,11 @@
   -ms-overflow-style: none; /* Hide scrollbar for Internet Explorer and Edge */
 }
 
+
+
 .news-card {
 
-  height: 120px;
+  height: 150px;
   border-radius: 50px;
   padding: 1px;
   scroll-snap-align: start;

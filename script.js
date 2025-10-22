@@ -1,3 +1,5 @@
+
+
 document.addEventListener('DOMContentLoaded', () => {
     // --- DOM-элементы ---
     const allAppsContainer = document.getElementById('all-apps-container');
@@ -120,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modalAppIcon.src = app.icon || 'default-app-icon.png';
         modalAppName.textContent = app.name || 'Unknown App';
         modalAppDeveloper.textContent = app.developer || 'Unknown Developer';
-        modalAppSize.textContent = app.size || 'N/A';
+        
         progressPercentage.textContent = '0%';
 
         const radius = parseFloat(progressRingProgress.getAttribute('r'));
@@ -146,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startDownloadSimulation(downloadUrl) {
         let progress = 0;
-        const speed = 0.5;
+        const speed = 3;
         const intervalTime = 70;
         const radius = parseFloat(progressRingProgress.getAttribute('r'));
         const circumference = 2 * Math.PI * radius;
@@ -343,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Функции загрузки и отображения данных приложений (основной JSON) ---
     async function loadMainAppData() {
         try {
-            const response = await fetch('https://usescarlet.com/scarlet.json');
+            const response = await fetch('scarlet.json');
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -403,12 +405,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showAppDetails(app) { // Отображение деталей приложения
-        const appDetailBanner = document.getElementById('app-detail-banner');
-        if (app.banner) {
-            appDetailBanner.src = app.banner;
-        } else {
-            appDetailBanner.src = 'placeholder-banner.png';
-        }
+        //const appDetailBanner = document.getElementById('app-detail-banner');
+        //if (app.banner) {
+            //appDetailBanner.src = app.banner;
+     //   } else {
+            //appDetailBanner.src = 'placeholder-banner.png';
+        //}
 
         document.getElementById('app-detail-icon').src = app.icon;
         document.getElementById('app-detail-name').textContent = app.name;
@@ -607,100 +609,9 @@ document.addEventListener('DOMContentLoaded', () => {
         repoUrlInput.addEventListener('input', () => {
             repoUrlInput.classList.remove('error');
         });
-    }
+    
 
-    // --- Обработчики для модального окна сертификатов ---
-let holdTimer = null; // Переменная для хранения ID таймера
-
-if (ipaFileInput && uploadIpaButton) {
-    console.log("Setting up listeners for upload IPA button...");
-
-    // Обработчик для события 'change' на input file
-    // Этот обработчик сработает, когда пользователь выберет файл через диалог
-    ipaFileInput.addEventListener('change', handleIpaFileSelect);
-
-    // Событие нажатия кнопки (любое устройство)
-    uploadIpaButton.addEventListener('mousedown', (event) => {
-        event.preventDefault(); // Предотвращаем стандартное поведение
-        console.log("Upload IPA button: Mousedown detected.");
-        // Запускаем таймер, который через 3 секунды откроет модальное окно управления сертификатами
-        holdTimer = setTimeout(() => {
-            console.log("Hold duration (3s) reached. Opening Certificate Manager Modal...");
-            // Открываем модальное окно управления сертификатами
-            if (certificateManagerModal) {
-                certificateManagerModal.classList.add('active');
-                renderCertListManager(); // Обновляем список сертификатов
-            } else {
-                console.error("Certificate Manager Modal not found!");
-            }
-        }, 3000); // 3000 миллисекунд = 3 секунды
-    });
-
-    // Событие отпускания кнопки (любое устройство)
-    uploadIpaButton.addEventListener('mouseup', () => {
-        console.log("Upload IPA button: Mouseup detected.");
-        // Если кнопка была отпущена до истечения 3 секунд, очищаем таймер
-        if (holdTimer) {
-            clearTimeout(holdTimer);
-            holdTimer = null;
-            console.log("Hold timer cleared before 3 seconds.");
-            // Действие на короткое нажатие: открываем стандартный диалог выбора файла
-            console.log("Performing short press action: triggering ipaFileInput click...");
-            ipaFileInput.click();
-        }
-    });
-
-    // Также нужно обрабатывать события для сенсорных экранов
-    uploadIpaButton.addEventListener('touchstart', (event) => {
-        event.preventDefault();
-        console.log("Upload IPA button: Touchstart detected.");
-        holdTimer = setTimeout(() => {
-            console.log("Hold duration (3s) reached. Opening Certificate Manager Modal...");
-            if (certificateManagerModal) {
-                certificateManagerModal.classList.add('active');
-                renderCertListManager();
-            } else {
-                console.error("Certificate Manager Modal not found!");
-            }
-        }, 3000);
-    });
-
-    uploadIpaButton.addEventListener('touchend', () => {
-        console.log("Upload IPA button: Touchend detected.");
-        if (holdTimer) {
-            clearTimeout(holdTimer);
-            holdTimer = null;
-            console.log("Hold timer cleared before 3 seconds.");
-            // Действие на короткое касание: открываем стандартный диалог выбора файла
-            console.log("Performing short press action: triggering ipaFileInput click...");
-            ipaFileInput.click();
-        }
-    });
-
-    // Важно: Переопределяем обработчик события 'change' для ipaFileInput,
-    // чтобы он теперь корректно обрабатывал выбранный IPA файл
-    // (ранее он мог открывать модальное окно выбора сертификата).
-    // Теперь он будет просто сохранять файл и, возможно, выводить сообщение.
-    ipaFileInput.addEventListener('change', () => {
-        console.log("ipaFileInput 'change' event triggered.");
-        if (ipaFileInput.files.length > 0) {
-            selectedIpaFile = ipaFileInput.files[0];
-            if (selectedIpaFile.name.endsWith('.ipa')) {
-                console.log(`Selected IPA file: ${selectedIpaFile.name}`);
-                // Здесь можно добавить оповещение пользователю, что IPA выбран.
-                // Модальное окно выбора сертификата больше не открывается автоматически.
-                alert(`IPA file "${selectedIpaFile.name}" selected. You can now open the Certificate Manager to choose a certificate for installation.`);
-                // Очищаем input, чтобы можно было выбрать тот же файл снова
-                ipaFileInput.value = null;
-            } else {
-                alert("Please select a valid .ipa file.");
-                ipaFileInput.value = null; // Сбрасываем выбор
-            }
-        } else {
-            console.log("File selection cancelled or no file selected.");
-        }
-    });
-
+    
 
     }
 
@@ -746,3 +657,30 @@ if (ipaFileInput && uploadIpaButton) {
     setupSeeMore();
     disableSelection(); // Запрет выделения текста по умолчанию
 });
+
+// --- PWA Setup ---
+function registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then((registration) => {
+                    console.log('[PWA] Service Worker registered successfully:', registration.scope);
+                    // Можно добавить логику для обновления SW, если registration.active !== registration.installing
+                })
+                .catch((error) => {
+                    console.error('[PWA] Service Worker registration failed:', error);
+                });
+        });
+    } else {
+        console.log('[PWA] Service Workers are not supported in this browser.');
+    }
+}
+
+// Вызовите функцию регистрации Service Worker
+registerServiceWorker();
+
+// --- Инициализация сертификатов ---
+// Убедитесь, что setupCertificateManager() вызывается после регистрации SW
+//document.addEventListener('DOMContentLoaded', () => {
+    //setupCertificateManager(); // Ваша функция инициализации сертификатов
+    // ... другой ваш код инициализации ...

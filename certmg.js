@@ -2,45 +2,42 @@
 
 // --- Глобальные переменные ---
 let selectedIpaFile = null; // Хранит выбранный IPA файл
-let selectedCertificate = null; // Хранит выбранный сертификат
-let certificates = []; // Список импортированных сертификатов
+let currentImportState = 0; // 0: начальное, 1: выбрано P12, 2: выбрано MobileProvision, 3: введен пароль
+let selectedP12File = null; // Хранит выбранный P12 файл
+let selectedMobileProvisionFile = null; // Хранит выбранный MobileProvision файл
+let certificatePassword = null; // Хранит пароль для P12
+let selectedCertificateForManager = null; // Хранит выбранный сертификат для отображения/удаления в менеджере
+
+const certificates = []; // Список импортированных сертификатов
 const CERTIFICATES_LS_KEY = 'scarletCertificates'; // Ключ для localStorage
 
 // --- DOM-элементы ---
+// Кнопка и input для выбора IPA
 const ipaFileInput = document.getElementById('ipaFileInput');
 const uploadIpaButton = document.querySelector('.upload-ipa-button');
-const ipaCertSelectModal = document.getElementById('ipa-cert-select-modal');
-const closeIpaCertModal = document.getElementById('close-ipa-cert-modal');
-const selectedIpaNameDisplay = document.getElementById('selected-ipa-name');
-const certListForSelection = document.getElementById('cert-list-for-selection');
-const cancelIpaCertSelectionBtn = document.getElementById('cancel-ipa-cert-selection');
-const confirmIpaCertSelectionBtn = document.getElementById('confirm-ipa-cert-selection');
 
+// Модальное окно управления сертификатами
 const certificateManagerModal = document.getElementById('certificate-manager-modal');
 const closeManagerModalBtn = document.getElementById('close-manager-modal');
 const certListManager = document.getElementById('cert-list-manager');
-const importP12Button = document.getElementById('import-p12-button');
-const importMobileProvisionButton = document.getElementById('import-mobileprovision-button');
-const p12FileInput = document.getElementById('p12FileInput');
-const mobileprovisionFileInput = document.getElementById('mobileprovisionFileInput');
+const importCertificateMainButton = document.getElementById('import-certificate-main-button');
+const p12FileInput = document.getElementById('p12FileInput'); // Скрытый input для P12
+const mobileprovisionFileInput = document.getElementById('mobileprovisionFileInput'); // Скрытый input для MobileProvision
 const closeManagerFooterBtn = document.getElementById('close-manager-footer-button');
 
+// Модальное окно ввода пароля
+const passwordModal = document.getElementById('password-modal');
+const passwordInput = document.getElementById('password-input');
+const cancelPasswordModalBtn = document.getElementById('cancel-password-modal');
+const confirmPasswordModalBtn = document.getElementById('confirm-password-modal');
+const passwordModalTitle = document.querySelector('#password-modal .modal-header h2'); // Заголовок модалки пароля
+
 // --- Функции управления модальными окнами ---
-function showIpaCertSelectModal() {
-    if (!ipaCertSelectModal) { console.error("IPA Cert Select Modal not found!"); return; }
-    ipaCertSelectModal.classList.add('active');
-}
-
-function hideIpaCertSelectModal() {
-    if (!ipaCertSelectModal) return;
-    ipaCertSelectModal.classList.remove('active');
-    resetIpaCertSelectionState();
-}
-
 function showCertificateManagerModal() {
     if (!certificateManagerModal) { console.error("Certificate Manager Modal not found!"); return; }
+    console.log("Showing Certificate Manager Modal...");
     certificateManagerModal.classList.add('active');
-    renderCertListManager(); // Отрисовываем список при открытии
+    renderCertListManager();
 }
 
 function hideCertificateManagerModal() {
@@ -48,22 +45,23 @@ function hideCertificateManagerModal() {
     certificateManagerModal.classList.remove('active');
 }
 
-function resetIpaCertSelectionState() {
-    selectedIpaFile = null;
-    selectedCertificate = null;
-    if (selectedIpaNameDisplay) selectedIpaNameDisplay.textContent = "None selected";
-    // Очищаем выбор сертификата в списке
-    if (certListForSelection) {
-        certListForSelection.querySelectorAll('.cert-item-selection').forEach(item => {
-            item.querySelector('.radio-button').classList.remove('selected');
-        });
-    }
+function showPasswordModal(promptTitle = "Enter Password") {
+    if (!passwordModal) { console.error("Password Modal not found!"); return; }
+    if (passwordModalTitle) passwordModalTitle.textContent = promptTitle;
+    passwordInput.value = '';
+    passwordModal.classList.add('active');
+}
+
+function hidePasswordModal() {
+    if (!passwordModal) return;
+    passwordModal.classList.remove('active');
+    passwordInput.value = '';
 }
 
 // --- Функции управления сертификатами ---
 function saveCertificates() {
     localStorage.setItem(CERTIFICATES_LS_KEY, JSON.stringify(certificates));
-    console.log("Certificates saved.");
+    console.log(`Saved ${certificates.length} certificates.`);
 }
 
 function loadCertificates() {
@@ -71,24 +69,25 @@ function loadCertificates() {
     const storedCerts = localStorage.getItem(CERTIFICATES_LS_KEY);
     if (storedCerts) {
         try {
-            certificates = JSON.parse(storedCerts);
-            // Дополнительно можно парсить даты и проверять срок действия, если нужно
+            certificates.length = 0;
+            JSON.parse(storedCerts).forEach(certData => {
+                certificates.push(certData);
+            });
             console.log(`Loaded ${certificates.length} certificates.`);
         } catch (error) {
             console.error("Error parsing certificates from localStorage:", error);
-            certificates = [];
+            certificates.length = 0;
         }
     } else {
-        certificates = [];
+        certificates.length = 0;
         console.log("No certificates found in localStorage.");
     }
-    renderCertListManager(); // Обновляем список в менеджере
-    renderCertListForSelection(); // Обновляем список для выбора IPA
+    renderCertListManager();
 }
 
 function renderCertListManager() {
-    if (!certListManager) return;
-    certListManager.innerHTML = ''; // Очищаем
+    if (!certListManager) { console.error("Cert list manager container not found!"); return; }
+    certListManager.innerHTML = '';
 
     if (certificates.length === 0) {
         certListManager.innerHTML = '<p class="empty-list-message">No certificates imported yet.</p>';
@@ -99,26 +98,26 @@ function renderCertListManager() {
         const certItem = document.createElement('div');
         certItem.classList.add('cert-item-manager');
 
-        const isRevoked = cert.revoked || false; // Предполагаем, что есть поле revoked
+        const isRevoked = cert.revoked || false;
         const statusClass = isRevoked ? 'revoked' : 'signed';
         const statusText = isRevoked ? 'Revoked' : 'Signed';
 
-        // Форматируем дату истечения срока действия (предполагаем, что cert.expires - это строка или timestamp)
         let expiresText = 'Unknown';
         try {
             if (cert.expires) {
                 const date = new Date(cert.expires);
-                expiresText = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+                if (!isNaN(date.getTime())) {
+                    expiresText = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+                }
             }
         } catch (e) {
-            console.error("Error formatting expiry date:", cert.expires);
+            console.error("Error formatting expiry date:", cert.expires, e);
             expiresText = 'Invalid Date';
         }
 
-
         certItem.innerHTML = `
             <div class="radio-wrapper" data-cert-index="${index}">
-                <div class="radio-button ${selectedCertificate === cert ? 'selected' : ''}"></div>
+                <div class="radio-button ${selectedCertificateForManager === cert ? 'selected' : ''}"></div>
             </div>
             <div class="cert-details">
                 <div class="cert-name">${cert.name || 'Unnamed Certificate'}</div>
@@ -129,175 +128,213 @@ function renderCertListManager() {
                     <span class="cert-status-value ${statusClass}">${statusText}</span>
                 </div>
             </div>
-            <!-- <div class="checkmark-right"></div> -->
+            <button class="delete-cert-button" aria-label="Delete Certificate" data-cert-index="${index}">🗑️</button> <!-- Кнопка удаления -->
         `;
 
-        // Добавляем обработчик на клик по строке для выбора сертификата
+        // Обработчик выбора сертификата
         certItem.querySelector('.radio-wrapper').addEventListener('click', () => {
             selectCertificateForManager(cert);
+        });
+
+        // Обработчик удаления сертификата
+        certItem.querySelector('.delete-cert-button').addEventListener('click', (event) => {
+            event.stopPropagation(); // Предотвращаем срабатывание выбора при клике на удаление
+            deleteCertificate(index);
         });
 
         certListManager.appendChild(certItem);
     });
 }
 
-function renderCertListForSelection() {
-    if (!certListForSelection) return;
-    certListForSelection.innerHTML = '';
+function selectCertificateForManager(cert) {
+    selectedCertificateForManager = cert;
+    renderCertListManager();
+}
 
-    if (certificates.length === 0) {
-        certListForSelection.innerHTML = '<p class="empty-list-message">No certificates found. Please import them.</p>';
+function deleteCertificate(index) {
+    if (index >= 0 && index < certificates.length) {
+        const certName = certificates[index].name || 'Unnamed Certificate';
+        if (confirm(`Are you sure you want to delete certificate "${certName}"?`)) {
+            certificates.splice(index, 1); // Удаляем из массива
+            saveCertificates();
+            renderCertListManager(); // Обновляем отображение
+            // Если удаленный сертификат был выбран, сбрасываем выбор
+            if (selectedCertificateForManager && selectedCertificateForManager === certName) { // Проверка по имени, если объекты не совпадают
+                selectedCertificateForManager = null;
+            }
+            console.log(`Certificate at index ${index} deleted.`);
+        }
+    }
+}
+
+// --- Функция импорта сертификата (последовательная) ---
+function startCertificateImportProcess() {
+    // Сброс состояний перед началом нового импорта
+    currentImportState = 0;
+    selectedP12File = null;
+    selectedMobileProvisionFile = null;
+    certificatePassword = null;
+    selectedCertificateForManager = null; // Сбрасываем выбор, если был
+
+    // 1. Триггер выбора P12 файла
+    console.log("Starting import: Prompting for .p12 file...");
+    p12FileInput.click();
+}
+
+// Обработчик для P12 файла
+function handleP12FileSelect() {
+    if (p12FileInput.files.length > 0) {
+        selectedP12File = p12FileInput.files[0];
+        console.log(`P12 file selected: ${selectedP12File.name}`);
+        currentImportState = 1; // Устанавливаем состояние: P12 выбран
+
+        // 2. Триггер выбора MobileProvision файла
+        setTimeout(() => {
+            console.log("Prompting for .mobileprovision file...");
+            mobileprovisionFileInput.click();
+        }, 100);
+    } else {
+        console.log("P12 file selection cancelled.");
+        resetImportProcess(); // Сброс, если пользователь отменил выбор
+    }
+}
+
+// Обработчик для MobileProvision файла
+function handleMobileProvisionFileSelect() {
+    if (mobileprovisionFileInput.files.length > 0) {
+        selectedMobileProvisionFile = mobileprovisionFileInput.files[0];
+        console.log(`MobileProvision file selected: ${selectedMobileProvisionFile.name}`);
+        currentImportState = 2; // Устанавливаем состояние: MobileProvision выбран
+
+        // 3. Запрашиваем пароль
+        showPasswordModal("Enter password for .p12 file");
+    } else {
+        console.log("MobileProvision file selection cancelled.");
+        resetImportProcess(); // Сброс, если пользователь отменил выбор
+    }
+}
+
+// Обработчик для подтверждения пароля
+function handlePasswordConfirmation() {
+    if (passwordInput.value) {
+        certificatePassword = passwordInput.value;
+        console.log("Password entered.");
+        hidePasswordModal();
+        currentImportState = 3; // Устанавливаем состояние: пароль введен
+
+        // 4. Финальная обработка - добавление сертификата в список
+        finalizeCertificateImport();
+    } else {
+        alert("Password cannot be empty.");
+        // Не сбрасываем состояние, чтобы дать пользователю шанс ввести пароль снова
+    }
+}
+
+// Сброс процесса импорта
+function resetImportProcess() {
+    currentImportState = 0;
+    selectedP12File = null;
+    selectedMobileProvisionFile = null;
+    certificatePassword = null;
+    p12FileInput.value = null;
+    mobileprovisionFileInput.value = null;
+    console.log("Import process reset.");
+}
+
+// Финальный шаг импорта
+function finalizeCertificateImport() {
+    if (!selectedP12File || !selectedMobileProvisionFile || !certificatePassword || currentImportState < 3) {
+        console.error("Import process failed: Missing required information or incorrect state.");
+        alert("Error during import: missing required information or process interrupted.");
+        resetImportProcess();
         return;
     }
 
-    certificates.forEach((cert, index) => {
-        // Фильтруем только действительные сертификаты для установки IPA
-        if (cert.revoked || !cert.expires) return; // Пропускаем отозванные или с неизвестной датой
+    console.log(`Finalizing import for P12: ${selectedP12File.name}, MP: ${selectedMobileProvisionFile.name}, Password: [provided]`);
 
-        const certItem = document.createElement('div');
-        certItem.classList.add('cert-item-selection');
+    // --- Здесь должна быть реальная логика парсинга P12, MobileProvision и пароля ---
+    // Это сложная задача, требующая криптографических библиотек.
+    // Ниже - только заглушка.
 
-        let expiresText = 'Unknown';
-        try {
-            if (cert.expires) {
-                const date = new Date(cert.expires);
-                expiresText = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-            }
-        } catch (e) { expiresText = 'Invalid Date'; }
-
-        certItem.innerHTML = `
-            <div class="radio-button ${selectedCertificate === cert ? 'selected' : ''}"></div>
-            <div class="cert-name">${cert.name || 'Unnamed Certificate'}</div>
-            <div class="cert-expires">${expiresText}</div>
-        `;
-
-        // Обработчик клика для выбора сертификата
-        certItem.addEventListener('click', () => {
-            selectCertificateForIPA(cert);
-        });
-
-        certListForSelection.appendChild(certItem);
-    });
-}
-
-function selectCertificateForManager(cert) {
-    selectedCertificate = cert;
-    renderCertListManager(); // Обновляем UI для выделения
-}
-
-function selectCertificateForIPA(cert) {
-    selectedCertificate = cert;
-    renderCertListForSelection(); // Обновляем UI
-}
-
-function importCertificate(file, type) {
-    // В реальном приложении здесь была бы сложная логика парсинга .p12 / .mobileprovision
-    // С использованием криптографических библиотек (например, forge.js для браузера)
-    // Для примера, мы просто добавим заглушку с именем файла и текущей датой
-
-    if (!file) return;
-    console.log(`Importing ${type} file: ${file.name}`);
-
-    // Читаем файл как ArrayBuffer (требуется для криптографии)
-    const reader = new FileReader();
-    reader.onload = (event) => {
-        const arrayBuffer = event.target.result;
-        // Здесь должна быть реальная логика парсинга
-
-        // Заглушка: создаем объект сертификата
-        const newCert = {
-            name: file.name.replace(`.${type}`, ''), // Имя файла без расширения
-            raw: arrayBuffer, // Сохраняем как ArrayBuffer (для реальной работы)
-            expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(), // Примерно год в будущем
-            revoked: false, // По умолчанию не отозван
-            type: type // 'p12' или 'mobileprovision'
-        };
-
-        // Добавляем или обновляем сертификат
-        const existingIndex = certificates.findIndex(c => c.name === newCert.name && c.type === type);
-        if (existingIndex !== -1) {
-            certificates[existingIndex] = newCert; // Обновляем существующий
-        } else {
-            certificates.push(newCert); // Добавляем новый
-        }
-
-        saveCertificates();
-        renderCertListManager(); // Обновляем список в менеджере
-        renderCertListForSelection(); // Обновляем список для выбора IPA
-        console.log(`Certificate imported: ${newCert.name}`);
+    const newCertData = {
+        // Генерируем уникальный ID или используем имя P12 файла
+        id: `cert_${Date.now()}_${Math.random().toString(16).slice(2)}`,
+        name: `${selectedP12File.name.replace('.p12', '')} + ${selectedMobileProvisionFile.name.replace('.mobileprovision', '')}`, // Примерное имя
+        // Извлеченные данные (заглушка)
+        expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(), // Примерно год в будущем
+        revoked: false, // По умолчанию не отозван
+        // В реальном приложении здесь будут данные, извлеченные из файлов
+        // p12RawData: selectedP12File, // Или ссылка на него, если нужно хранить
+        // mpRawData: selectedMobileProvisionFile,
+        // passwordHash: hash(certificatePassword) // Пароль лучше не хранить напрямую
     };
-    reader.onerror = (event) => {
-        console.error("Error reading file:", event.target.error);
-        alert(`Error reading file: ${file.name}`);
-    };
-    reader.readAsArrayBuffer(file);
+
+    certificates.push(newCertData);
+    saveCertificates();
+    renderCertListManager(); // Обновляем список в менеджере
+
+    alert(`Certificate "${newCertData.name}" imported successfully (mock data).`);
+
+    resetImportProcess(); // Сбрасываем после успешного импорта
 }
 
-function handleIpaFileSelect() {
-    if (ipaFileInput.files.length > 0) {
-        selectedIpaFile = ipaFileInput.files[0];
-        if (selectedIpaFile.name.endsWith('.ipa')) {
-            if (selectedIpaNameDisplay) {
-                selectedIpaNameDisplay.textContent = selectedIpaFile.name;
-            }
-            // Показываем модальное окно выбора сертификата
-            showIpaCertSelectModal();
-        } else {
-            alert("Please select a valid .ipa file.");
-            ipaFileInput.value = null; // Сбрасываем выбор
-        }
-    }
-}
-
-// --- Обработчики событий ---
+// --- Инициализация ---
 function setupCertificateManager() {
     console.log("Setting up certificate manager event listeners...");
 
-    // 1. Открытие модального окна выбора IPA и сертификата
-    if (uploadIpaButton && ipaFileInput) {
-        uploadIpaButton.addEventListener('click', () => {
-            console.log("Upload IPA button clicked. Triggering ipaFileInput...");
-            ipaFileInput.click();
-        });
-        ipaFileInput.addEventListener('change', handleIpaFileSelect);
-    } else {
-        console.error("Could not find uploadIpaButton or ipaFileInput.");
-    }
+    // 1. Кнопка выбора IPA (короткое нажатие) / Открытие менеджера (долгое нажатие)
+    let holdTimer = null;
+    const holdDuration = 3000;
 
-    // 2. Модальное окно выбора IPA и сертификата
-    if (closeIpaCertModal) {
-        closeIpaCertModal.addEventListener('click', hideIpaCertSelectModal);
-    }
-    if (cancelIpaCertSelectionBtn) {
-        cancelIpaCertSelectionBtn.addEventListener('click', hideIpaCertSelectModal);
-    }
-    if (confirmIpaCertSelectionBtn) {
-        confirmIpaCertSelectionBtn.addEventListener('click', () => {
-            if (selectedIpaFile && selectedCertificate) {
-                console.log(`Installing ${selectedIpaFile.name} with certificate ${selectedCertificate.name}`);
-                alert(`Installing ${selectedIpaFile.name} with ${selectedCertificate.name}. (Actual installation not implemented)`);
-                // TODO: Здесь будет логика установки IPA с использованием выбранного сертификата
-                hideIpaCertSelectModal();
+    const startHoldOrClick = (event) => {
+        event.preventDefault();
+        if (event.type === 'mousedown' || event.type === 'touchstart') {
+            console.log(`Upload IPA button: ${event.type} detected. Starting hold timer...`);
+            holdTimer = setTimeout(() => {
+                console.log("Hold duration reached. Opening Certificate Manager...");
+                showCertificateManagerModal();
+                holdTimer = null; // Таймер сработал
+            }, holdDuration);
+        } else if (event.type === 'mouseup' || event.type === 'touchend') {
+            if (holdTimer) { // Если таймер был запущен и не сработал (короткое нажатие)
+                clearTimeout(holdTimer);
+                holdTimer = null;
+                console.log("Short press detected. Triggering ipaFileInput...");
+                ipaFileInput.click(); // Открываем диалог выбора файла
             } else {
-                alert("Please select an IPA file and a certificate.");
+                console.log("Hold completed or already handled.");
             }
-        });
-    }
-    if (ipaCertSelectModal) {
-        ipaCertSelectModal.addEventListener('click', (event) => {
-            if (event.target === ipaCertSelectModal) {
-                hideIpaCertSelectModal();
+        }
+    };
+
+    uploadIpaButton.addEventListener('mousedown', startHoldOrClick);
+    uploadIpaButton.addEventListener('touchstart', startHoldOrClick);
+    uploadIpaButton.addEventListener('mouseup', startHoldOrClick);
+    uploadIpaButton.addEventListener('touchend', startHoldOrClick);
+    // Предотвращаем стандартное поведение, если это ссылка или другая кнопка
+    uploadIpaButton.addEventListener('click', (event) => event.preventDefault());
+
+    // 2. Обработчик выбора IPA файла
+    ipaFileInput.addEventListener('change', () => {
+        if (ipaFileInput.files.length > 0) {
+            selectedIpaFile = ipaFileInput.files[0];
+            if (selectedIpaFile.name.endsWith('.ipa')) {
+                console.log(`Selected IPA file: ${selectedIpaFile.name}`);
+                alert(`IPA file "${selectedIpaFile.name}" selected. Use the Certificate Manager to import certificates and proceed with installation.`);
+            } else {
+                alert("Please select a valid .ipa file.");
+                selectedIpaFile = null;
             }
-        });
-    }
+        } else {
+            console.log("IPA file selection cancelled.");
+            selectedIpaFile = null;
+        }
+        ipaFileInput.value = null; // Сбрасываем инпут
+    });
 
     // 3. Модальное окно управления сертификатами
-    if (closeManagerModalBtn) {
-        closeManagerModalBtn.addEventListener('click', hideCertificateManagerModal);
-    }
-    if (closeManagerFooterBtn) {
-        closeManagerFooterBtn.addEventListener('click', hideCertificateManagerModal);
-    }
+    if (closeManagerModalBtn) closeManagerModalBtn.addEventListener('click', hideCertificateManagerModal);
+    if (closeManagerFooterBtn) closeManagerFooterBtn.addEventListener('click', hideCertificateManagerModal);
     if (certificateManagerModal) {
         certificateManagerModal.addEventListener('click', (event) => {
             if (event.target === certificateManagerModal) {
@@ -306,41 +343,47 @@ function setupCertificateManager() {
         });
     }
 
-    // 4. Кнопки импорта сертификатов
-    if (importP12Button && p12FileInput) {
-        importP12Button.addEventListener('click', () => p12FileInput.click());
-        p12FileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                importCertificate(e.target.files[0], 'p12');
-                e.target.value = null; // Сброс для возможности повторного выбора
-            }
+    // 4. Основная кнопка импорта сертификата
+    if (importCertificateMainButton) {
+        importCertificateMainButton.addEventListener('click', startCertificateImportProcess);
+    }
+
+    // 5. Файловые инпуты для P12 и MobileProvision
+    // Эти инпуты вызываются программно кнопками
+    if (p12FileInput) {
+        p12FileInput.addEventListener('change', handleP12FileSelect);
+    }
+    if (mobileprovisionFileInput) {
+        mobileprovisionFileInput.addEventListener('change', handleMobileProvisionFileSelect);
+    }
+
+    // 6. Модальное окно ввода пароля
+    if (cancelPasswordModalBtn) {
+        cancelPasswordModalBtn.addEventListener('click', () => {
+            hidePasswordModal();
+            resetImportProcess(); // Сброс процесса при отмене пароля
         });
     }
-    if (importMobileProvisionButton && mobileprovisionFileInput) {
-        importMobileProvisionButton.addEventListener('click', () => mobileprovisionFileInput.click());
-        mobileprovisionFileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                importCertificate(e.target.files[0], 'mobileprovision');
-                e.target.value = null; // Сброс
+    if (confirmPasswordModalBtn) {
+        confirmPasswordModalBtn.addEventListener('click', handlePasswordConfirmation);
+    }
+    if (passwordModal) {
+        passwordModal.addEventListener('click', (event) => {
+            if (event.target === passwordModal) {
+                hidePasswordModal();
+                resetImportProcess(); // Сброс при закрытии модалки вне
             }
         });
     }
 
-    // 5. Загрузка сертификатов при старте
+    // 7. Загрузка существующих сертификатов при старте
     loadCertificates();
 }
 
 // --- Инициализация ---
-// Эта функция должна быть вызвана после того, как DOM готов.
-// Если вы используете один общий script.js, добавьте вызов setupCertificateManager()
-// в конец вашего основного DOMContentLoaded обработчика.
-// Если это отдельный скрипт, убедитесь, что он подключается после DOM.
-// Здесь предполагается, что он будет вызван из основного скрипта.
-// Если он будет загружаться отдельно, добавьте:
-// document.addEventListener('DOMContentLoaded', setupCertificateManager);
-
-// Для интеграции с вашим основным скриптом, добавьте этот вызов в конец вашего главного script.js:
+// Убедитесь, что эта функция вызывается после загрузки DOM,
+// и что она не использует document.addEventListener('DOMContentLoaded', ...) сама по себе.
+// Вызовите ее из основного script.js:
 // setupCertificateManager();
-
-// Если вы хотите, чтобы этот скрипт работал полностью независимо:
+// Или, если этот файл подключается отдельно и должен работать независимо:
 document.addEventListener('DOMContentLoaded', setupCertificateManager);

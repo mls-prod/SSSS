@@ -9,7 +9,7 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.4);
+    
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     justify-content: center;
@@ -42,8 +42,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px; /* Немного больше padding */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Более светлый разделитель */
+    padding: 80px 20px; /* Немного больше padding */
+    
     background-color: #161616;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
@@ -88,9 +88,11 @@
 /* Стили для SVG прогресс-кольца */
 .progress-circle-container {
     position: relative;
-    width: 150px;
-    height: 150px;
-    margin-bottom: 30px; /* Больше отступ */
+    width: 115px;
+    height: 115px;
+    margin-bottom: 30px;/* Больше отступ */
+    margin-left: -180px;
+    margin-top: -200px;
 }
 
 .progress-ring {
@@ -102,13 +104,13 @@
 .progress-ring-background {
     fill: transparent; /* Без заливки */
     stroke: rgba(255, 255, 255, 0.1); /* Светло-серый фон кольца */
-    stroke-width: 8; /* Толщина кольца */
+    stroke-width: 10; /* Толщина кольца */
 }
 
 .progress-ring-progress {
     fill: transparent;
     stroke: #ff3b30; /* Красный цвет прогресса */
-    stroke-width: 8;
+    stroke-width: 10;
     stroke-linecap: round; /* Скругленные концы полоски */
     transition: stroke-dashoffset 0.1s linear; /* Плавная анимация */
     stroke-dasharray: 283; /* Длина окружности (2 * PI * r, где r=45) */
@@ -131,13 +133,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    
     padding-top: 20px;
     margin-top: 20px;
     width: 100%; /* Занимает всю ширину */
     background-color: #161616; /* Фон секции */
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
+    margin-top: -200px;
 }
 
 .app-info-left {
@@ -154,6 +157,7 @@
     margin-right: 15px;
     flex-shrink: 0;
     background-color: rgba(255, 255, 255, 0.1);
+    margin-left: 150px;
 }
 
 .app-text-modal {
