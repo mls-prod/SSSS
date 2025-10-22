@@ -1,0 +1,192 @@
+/* --- Стили для модального окна в стиле iOS (обновленные) --- */
+
+/* Основные стили модального окна */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    justify-content: center;
+    align-items: flex-end; /* Прикрепляем к низу */
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    opacity: 0;
+    transform: translateY(100%); /* Изначальное положение - за экраном */
+}
+
+.modal.active {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0); /* Анимация появления снизу */
+}
+
+.ios-modal {
+    background-color: #161616; /* Темный фон, как запрошено */
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0;
+    box-shadow: 0 -10px 20px rgba(0,0,0,0.3); /* Увеличенная тень */
+    display: flex;
+    flex-direction: column;
+}
+
+.ios-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px; /* Немного больше padding */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Более светлый разделитель */
+    background-color: #161616;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    flex-shrink: 0; /* Не сжимается */
+}
+
+.ios-modal-header .close-button {
+    background: none;
+    border: none;
+    font-size: 30px;
+    color: #ff3b30; /* Красный цвет кнопки закрытия */
+    cursor: pointer;
+    line-height: 1;
+    padding: 5px;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.ios-modal-header .close-button:hover {
+    opacity: 1;
+}
+
+.ios-modal-title {
+    font-size: 18px; /* Чуть больше шрифт */
+    font-weight: 600;
+    color: #ffffff; /* Белый текст заголовка */
+    margin: 0;
+}
+
+.ios-modal-body {
+    padding: 25px 20px; /* Больше padding */
+    background-color: #161616;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Центрируем содержимое */
+    justify-content: center; /* Центрируем содержимое по вертикали */
+}
+
+/* Стили для SVG прогресс-кольца */
+.progress-circle-container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin-bottom: 30px; /* Больше отступ */
+}
+
+.progress-ring {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg); /* Начинаем с верха */
+}
+
+.progress-ring-background {
+    fill: transparent; /* Без заливки */
+    stroke: rgba(255, 255, 255, 0.1); /* Светло-серый фон кольца */
+    stroke-width: 8; /* Толщина кольца */
+}
+
+.progress-ring-progress {
+    fill: transparent;
+    stroke: #ff3b30; /* Красный цвет прогресса */
+    stroke-width: 8;
+    stroke-linecap: round; /* Скругленные концы полоски */
+    transition: stroke-dashoffset 0.1s linear; /* Плавная анимация */
+    stroke-dasharray: 283; /* Длина окружности (2 * PI * r, где r=45) */
+    stroke-dashoffset: 283; /* Начальное смещение (полностью скрыто) */
+}
+
+.progress-percentage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 30px; /* Больше шрифт процентов */
+    font-weight: bold;
+    color: #ffffff;
+    z-index: 10; /* Поверх кольца */
+}
+
+/* Стили для информации о приложении */
+.app-info-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 20px;
+    margin-top: 20px;
+    width: 100%; /* Занимает всю ширину */
+    background-color: #161616; /* Фон секции */
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.app-info-left {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.app-icon-modal {
+    width: 55px; /* Чуть больше иконка */
+    height: 55px;
+    border-radius: 20px; /* Скругленные углы */
+    margin-right: 15px;
+    flex-shrink: 0;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.app-text-modal {
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.app-text-modal h3 {
+    font-size: 17px; /* Немного больше */
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0 0 3px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.app-text-modal p {
+    font-size: 14px; /* Немного больше */
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.app-info-right {
+    margin-left: 15px;
+    flex-shrink: 0;
+}
+
+.app-info-right span {
+    font-size: 14px; /* Немного больше */
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+}

@@ -1,0 +1,80 @@
+{
+  "META": {
+    "repoName": "Repo Name",
+    "repoIcon": "https://usescarlet.com/favicon.png"
+  },
+  "Games": [
+    {
+      "name": "iPogo",
+      "icon": "icon.png",
+      "version": "0.367.1",
+      "down": "https://ipogo.app/download/ipogo-3.8.6.ipa",
+      "category": "Hacked Games",
+      "description": "With iPogo you get a full set of tools to help you be the best. iPogo is a Simple, Powerful and Intuitive App.",
+      "bundleID": "com.nianticlabs.pokemongo",
+      "appstore": "com.nianticlabs.pokemongo"
+    }
+  ],
+  "Tweaked": [
+    {
+      "name": "Sposify++",
+      "version": "8.6.42",
+      "down": "https://resources.usescarlet.com/repo/IPAs/Spotify.ipa",
+      "category": "Tweaked Apps",
+      "description": "Sposify and Spotilife tweak merged into one app",
+      "bundleID": "com.spotify.client",
+      "appstore": "com.spotify.client",
+      "debs": [
+        "https://usescarlet.com/debs/Spotilife.dylib",
+        "https://usescarlet.com/debs/Sposify.dylib",
+        "https://usescarlet.com/debs/SposifyFix.dylib"
+      ],
+      "changelog": "- Updated Spotilife to v1.8"
+    }
+  ],
+  "Jailbreaks": [
+    {
+      "name": "Dopamine",
+      "version": "2.2.2",
+      "size": "28.3 MB",
+      "icon": "https://ellekit.space/dopamine/assets/icon.png",
+      "down": "https://github.com/opa334/Dopamine/releases/latest/download/Dopamine.ipa",
+      "dev": "opa334",
+      "category": "Jailbreaks",
+      "description": "iOS 15.0 - 16.6.1 jailbreak",
+      "bundleID": "com.opa334.Dopamine",
+      "screenshots": [
+        "https://ellekit.space/dopamine/assets/screenshot_one.png",
+        "https://ellekit.space/dopamine/assets/screenshot_two.png"
+      ],
+      "contact": [
+        "https://ellekit.space/dopamine/",
+        "https://twitter.com/opa334dev"
+      ]
+    }
+  ],
+  "Emulators": [
+    {
+      "name": "iNDS",
+      "version": "1.10.8",
+      "icon": "https://iosninja.io/img/ipas/inds.png",
+      "down": "https://github.com/iNDS-Team/iNDS/releases/download/v1.10.8/iNDS.ipa",
+      "category": "Emulators",
+      "description": "",
+      "bundleID": "net.nerd.iNDS",
+      "enableBackup": true
+    }
+  ],
+  "Other": [
+    {
+      "name": "Scarlet",
+      "version": "1.0",
+      "icon": "https://usescarlet.com/icon.png",
+      "down": "https://resources.usescarlet.com/repo/IPAs/ScarletAlpha.ipa",
+      "description": "This is the standard version of Scarlet. Allowing you to tweak and sideload your apps along with import your own certificates or use with a paid developer account entirely computerless.",
+      "bundleID": "com.DebianArch.Scarlet",
+      "category": "Alpha",
+      "changelog": "- Added fakesign support\n-Added back SSL install support."
+    }
+  ]
+}

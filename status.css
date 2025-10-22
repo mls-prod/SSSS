@@ -1,0 +1,1136 @@
+
+.signeddot{
+background-color:red;
+float:right;
+width:25px;
+height:25px;
+border-radius:30px;
+position: absolute;
+top: 4%;
+left: 88%;
+}
+
+/* --- Стили для модального окна выбора IPA и сертификата (внизу экрана) --- */
+#ipa-cert-select-modal.modal {
+    background-color: rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px);
+    align-items: flex-end; /* Прикрепляем к низу */
+    transform: translateY(100%);
+    opacity: 0;
+    display: none;
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+#ipa-cert-select-modal.modal.active {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#ipa-cert-select-modal .modal-content {
+    background-color: #161616;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0;
+    box-shadow: 0 -10px 20px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+}
+
+#ipa-cert-select-modal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: #161616;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    flex-shrink: 0;
+}
+
+#ipa-cert-select-modal .ios-modal-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+}
+
+#ipa-cert-select-modal .close-modal {
+    font-size: 30px;
+    color: #ff3b30;
+    cursor: pointer;
+    line-height: 1;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+#ipa-cert-select-modal .close-modal:hover {
+    opacity: 1;
+}
+
+#ipa-cert-select-modal .modal-body {
+    padding: 20px;
+    color: #ffffff;
+    flex-grow: 1;
+}
+
+#ipa-cert-select-modal .ipa-info p,
+#ipa-cert-select-modal .cert-selection p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+#ipa-cert-select-modal strong {
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.cert-list {
+    max-height: 200px; /* Ограничение высоты списка */
+    overflow-y: auto;
+    margin-bottom: 20px;
+    padding-right: 10px; /* Отступ для скроллбара */
+}
+
+.cert-item-selection {
+    display: flex;
+    align-items: center;
+    padding: 12px 10px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.cert-item-selection:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.cert-item-selection .radio-button {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid rgba(0, 122, 255, 0.7); /* iOS синий */
+    margin-right: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0; /* Иконка не сжимается */
+}
+
+.cert-item-selection .radio-button.selected::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background-color: #007aff; /* iOS синий */
+    border-radius: 50%;
+}
+
+.cert-item-selection .cert-name {
+    flex-grow: 1;
+    font-size: 16px;
+    font-weight: 500;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cert-item-selection .cert-expires {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-left: 10px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.cert-item-selection .revoked-status {
+    font-size: 12px;
+    font-weight: 600;
+    color: #ff3b30; /* Красный */
+    margin-left: 10px;
+    flex-shrink: 0;
+}
+
+.cert-item-selection .signed-status {
+    font-size: 12px;
+    font-weight: 600;
+    color: #34c759; /* Зеленый */
+    margin-left: 10px;
+    flex-shrink: 0;
+}
+
+.empty-list-message {
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+    padding: 20px 0;
+}
+
+#ipa-cert-select-modal .modal-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+#ipa-cert-select-modal button {
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+    border: none;
+}
+
+#ipa-cert-select-modal #cancel-ipa-cert-selection {
+    background-color: rgba(255, 59, 48, 0.2);
+    color: #ff3b30;
+}
+
+#ipa-cert-select-modal #cancel-ipa-cert-selection:hover {
+    background-color: rgba(255, 59, 48, 0.3);
+}
+
+#ipa-cert-select-modal #confirm-ipa-cert-selection {
+    background-color: #007aff;
+    color: #ffffff;
+}
+
+#ipa-cert-select-modal #confirm-ipa-cert-selection:hover {
+    background-color: #005ecb;
+}
+
+
+/* --- Стили для модального окна Manager Cert (внизу экрана) --- */
+#certificate-manager-modal.modal {
+    background-color: rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px);
+    align-items: flex-end; /* Прикрепляем к низу */
+    transform: translateY(100%);
+    opacity: 0;
+    display: none;
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+#certificate-manager-modal.modal.active {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#certificate-manager-modal .modal-content {
+    background-color: #161616;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0;
+    box-shadow: 0 -10px 20px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+}
+
+#certificate-manager-modal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: #161616;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    flex-shrink: 0;
+}
+
+#certificate-manager-modal .modal-header h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+}
+
+#certificate-manager-modal .close-modal {
+    font-size: 30px;
+    color: #ff3b30;
+    cursor: pointer;
+    line-height: 1;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+#certificate-manager-modal .close-modal:hover {
+    opacity: 1;
+}
+
+#certificate-manager-modal .modal-body {
+    padding: 20px;
+    color: #ffffff;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#certificate-manager-modal .cert-list-manager {
+    max-height: 300px; /* Увеличим высоту */
+    overflow-y: auto;
+    margin-bottom: 25px;
+    padding-right: 10px;
+}
+
+.cert-item-manager {
+    display: flex;
+    align-items: center;
+    padding: 15px 10px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    transition: background-color 0.2s ease;
+}
+
+.cert-item-manager:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.cert-item-manager .radio-wrapper {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    flex-shrink: 0;
+    cursor: pointer; /* Делаем всю строку кликабельной для выбора */
+}
+
+.cert-item-manager .radio-button {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid rgba(0, 122, 255, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.cert-item-manager .radio-button.selected::after {
+    content: '';
+    width: 12px;
+    height: 12px;
+    background-color: #007aff;
+    border-radius: 50%;
+}
+
+.cert-item-manager .cert-details {
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.cert-item-manager .cert-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cert-item-manager .cert-meta {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    gap: 15px; /* Расстояние между expires и status */
+}
+
+.cert-item-manager .cert-expires-label,
+.cert-item-manager .cert-status-label {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.cert-item-manager .cert-expires-value,
+.cert-item-manager .cert-status-value {
+    color: #ffffff;
+}
+
+.cert-item-manager .cert-status-value.revoked {
+    color: #ff3b30; /* Красный */
+    font-weight: 600;
+}
+
+.cert-item-manager .cert-status-value.signed {
+    color: #34c759; /* Зеленый */
+    font-weight: 600;
+}
+
+.cert-item-manager .checkmark-right { /* Placeholder, если нужна галочка справа */
+    width: 24px;
+    height: 24px;
+    margin-left: 15px;
+    flex-shrink: 0;
+    /* Добавьте стили для галочки, если она будет */
+}
+
+.import-cert-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.import-cert-section h4 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 15px;
+}
+
+.import-buttons {
+    display: flex;
+    gap: 15px; /* Расстояние между кнопками */
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.import-button {
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+    border: none;
+}
+
+.import-button { /* Общие стили для импорта */
+    background-color: #007aff;
+    color: #ffffff;
+}
+
+.import-button:hover {
+    background-color: #005ecb;
+}
+
+#certificate-manager-modal .modal-footer {
+    display: flex;
+    justify-content: flex-end; /* Кнопка "Close" справа */
+    padding: 15px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+#certificate-manager-modal #close-manager-footer-button {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+#certificate-manager-modal #close-manager-footer-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* --- Стили для выделения файла --- */
+.file-selected-info {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 10px;
+    text-align: center;
+}
+
+
+
+
+
+
+/* --- Стили для модального окна сертификатов (внизу экрана) --- */
+#cert-manager-modal.modal {
+    background-color: rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px);
+    align-items: flex-end; /* Прикрепляем к низу */
+    transform: translateY(100%); /* Изначальное положение - за экраном */
+    opacity: 0;
+    display: none;
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out; /* Добавляем transition */
+}
+
+#cert-manager-modal.modal.active {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0); /* Анимация появления снизу */
+}
+
+#cert-manager-modal .modal-content {
+    background-color: #161616;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 0; /* Убираем нижнее скругление */
+    border-bottom-right-radius: 0;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0;
+    box-shadow: 0 -10px 20px rgba(0,0,0,0.3); /* Тень сверху */
+    display: flex;
+    flex-direction: column;
+}
+
+#cert-manager-modal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: #161616;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    flex-shrink: 0;
+}
+
+#cert-manager-modal .modal-header h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+}
+
+#cert-manager-modal .close-modal {
+    font-size: 30px;
+    color: #ff3b30;
+    cursor: pointer;
+    line-height: 1;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+#cert-manager-modal .close-modal:hover {
+    opacity: 1;
+}
+
+#cert-manager-modal .modal-body {
+    padding: 20px;
+    color: #ffffff;
+    text-align: center; /* Центрируем текст */
+    flex-grow: 1; /* Занимает доступное пространство */
+}
+
+#cert-manager-modal .modal-body p {
+    color: rgba(255, 255, 255, 0.7); /* Более светлый текст */
+    font-size: 16px;
+    margin-bottom: 20px; /* Отступ после текста */
+}
+
+#cert-manager-modal .modal-footer {
+    display: flex;
+    justify-content: space-between; /* Кнопки по краям */
+    padding: 15px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+#cert-manager-modal button {
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+    border: none;
+}
+
+#cert-manager-modal #cancel-cert-manager {
+    background-color: rgba(255, 59, 48, 0.2);
+    color: #ff3b30;
+}
+
+#cert-manager-modal #cancel-cert-manager:hover {
+    background-color: rgba(255, 59, 48, 0.3);
+}
+
+#cert-manager-modal #confirm-cert-manager {
+    background-color: #007aff;
+    color: #ffffff;
+}
+
+#cert-manager-modal #confirm-cert-manager:hover {
+    background-color: #005ecb;
+}
+
+/* --- Обновленная нижняя панель загрузки --- */
+.download-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.9); /* Чуть более темный фон */
+    color: white;
+
+    justify-content: center; /* Центрируем содержимое */
+    align-items: center;
+    z-index: 999;
+    padding: 15px 0; /* Отступы сверху/снизу */
+    box-sizing: border-box;
+    backdrop-filter: blur(8px); /* Усиленный эффект размытия */
+}
+
+.download-panel-content {
+    width: 95%; /* Занимает почти всю ширину */
+    max-width: 600px; /* Ограничиваем максимальную ширину */
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Расстояние между элементами */
+}
+
+.download-panel .app-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    object-fit: cover;
+    flex-shrink: 0; /* Предотвращаем сжатие иконки */
+}
+
+.download-details {
+    flex-grow: 1; /* Занимает доступное пространство */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.download-details .app-name {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 3px;
+}
+
+.download-details .app-developer {
+    font-size: 13px;
+    color: #ccc;
+    white-space: nowrap; /* Предотвращаем перенос названия разработчика */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Добавляем многоточие, если текст слишком длинный */
+}
+
+.download-progress-area {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Прижимаем проценты и размер файла вправо */
+    flex-shrink: 0; /* Предотвращаем сжатие */
+    min-width: 150px; /* Минимальная ширина для области прогресса */
+}
+
+.progress-stats {
+    font-size: 12px;
+    color: #ccc;
+    margin-bottom: 5px;
+}
+
+.progress-bar-container {
+    width: 100%; /* Занимает всю ширину download-progress-area */
+    height: 10px;
+    background-color: #555;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.download-progress-bar {
+    height: 100%;
+    background-color: #4CAF50; /* Цвет прогресс-бара */
+    width: 0%;
+    border-radius: 5px;
+    transition: width 0.3s ease-in-out;
+}
+
+/* --- Стили для нового модального окна сертификатов --- */
+#cert-manager-modal.modal {
+    /* Использует те же стили, что и add-repo-modal */
+}
+
+#cert-manager-modal .modal-header h2 {
+    font-size: 22px;
+}
+
+#cert-manager-modal .modal-body p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #444;
+    margin-bottom: 20px;
+}
+
+#cert-manager-modal .modal-footer button {
+    background-color: #6c757d; /* Цвет для Cancel */
+    color: white;
+}
+
+#cert-manager-modal .modal-footer button#confirm-cert-manager {
+    background-color: #007bff; /* Цвет для Manage/OK */
+}
+
+
+
+
+
+
+
+
+
+
+.add-repo-btn {
+    color: red;
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    background-color:#161616;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translate(320px, -215px); 
+    background-color: transparent; 
+}
+
+.add-repo-btn:hover {
+    background-color:#161616;
+}
+
+.add-repo-btn-png {
+    background-image: url('+.png'); /* Укажите путь к вашему PNG файлу */
+    background-color: transparent; /* Убираем фон, если он не нужен */
+    background-size: contain; /* Масштабируем изображение, чтобы оно поместилось */
+    background-repeat: no-repeat;
+    
+    border: none;
+    width: 15px; /* Установите размер кнопки */
+    height: 15px;
+    
+    /* Опционально: добавьте эффект при наведении */
+     
+    transform: translate(340px, -200px); 
+}
+
+.add-repo-btn-png:hover {
+    /* Немного увеличиваем при наведении */
+}
+
+/* Кнопка добавления репозитория */
+.add-repo-btn {
+    background-color: #ff4d4d; /* Красный */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(255, 77, 77, 0.5);
+    
+}
+
+.add-repo-btn:hover {
+    background-color: #e60000;
+}
+
+/* Стили для модального окна */
+.modal {
+    display: none; /* По умолчанию скрыт */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 90%;
+    overflow: auto;
+    
+    backdrop-filter: blur(10px); /* Эффект размытия фона, как в iOS */
+    -webkit-backdrop-filter: blur(10px); /* Для Safari */
+    transform: translate(30px, 200px); 
+}
+
+.modal-content {
+    background-color: #f9f9f9; /* Светлый фон, приятный для глаз */
+    border-radius: 12px; /* Более скругленные углы */
+    width: 85%; /* Шире, чем раньше, чтобы лучше вписаться */
+    max-width: 400px; /* Ограничиваем максимальную ширину */
+    padding: 0; /* Убираем padding здесь, добавляем внутри секций */
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2); /* Более мягкая тень */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; /* Используем системный шрифт iOS */
+    text-align: center; /* Центрируем текст */
+}
+
+/* --- Заголовок модального окна --- */
+.modal-header {
+    padding: 20px 20px 10px 20px; /* Отступы */
+    border-bottom: 1px solid #e0e0e0; /* Тонкая линия разделения */
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 20px; /* Размер заголовка */
+    font-weight: 600; /* Полужирный шрифт */
+    color: #000; /* Черный текст */
+}
+
+/* --- Тело модального окна --- */
+.modal-body {
+    padding: 10px 20px 20px 20px; /* Отступы */
+}
+
+.modal-body label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px; /* Меньший размер для метки */
+    color: #8e8e93; /* Серый цвет текста */
+    font-weight: normal; /* Обычный шрифт */
+}
+
+.modal-body input[type="text"] {
+    width: calc(100% - 24px); /* Учитываем padding */
+    padding: 12px;
+    border: 1px solid #c7c7cc; /* Светло-серый бордер */
+    border-radius: 8px; /* Скругленные углы инпута */
+    font-size: 16px;
+    background-color: #f2f2f7; /* Светлый фон инпута */
+    color: #000; /* Черный текст инпута */
+    margin-bottom: 0; /* Убираем нижний отступ, он в padding modal-body */
+}
+
+.modal-body input[type="text"]::placeholder {
+    color: #8e8e93; /* Цвет плейсхолдера */
+}
+
+/* --- Футер модального окна (кнопки) --- */
+.modal-footer {
+    display: flex;
+    justify-content: center; /* Центрируем кнопки */
+    align-items: center;
+    border-top: 1px solid #e0e0e0;
+    padding: 15px 0; /* Отступы сверху и снизу */
+    gap: 15px; /* Пространство между кнопками */
+}
+
+/* Стиль для кнопок в футере */
+.modal-footer button {
+    font-family: inherit; /* Используем системный шрифт */
+    font-size: 17px; /* Размер шрифта */
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600; /* Полужирный шрифт */
+    transition: all 0.2s ease;
+}
+
+#cancel-add-repo {
+    background-color: transparent; /* Прозрачный фон */
+    color: #007aff; /* Стандартный синий цвет iOS */
+    font-weight: normal; /* Обычный шрифт для Cancel */
+}
+
+#cancel-add-repo:hover {
+    background-color: rgba(0, 122, 255, 0.1); /* Легкий синий фон при наведении */
+}
+
+#confirm-add-repo {
+    background-color: #007aff; /* Синий фон */
+    color: white; /* Белый текст */
+}
+
+#confirm-add-repo:hover {
+    background-color: #005ecb; /* Более темный синий при наведении */
+}
+
+/* --- Кнопка закрытия --- */
+
+/* --- Стиль для баннера и других элементов --- */
+.back-button-in-banner, .download-button-png {
+    /* Если вы хотите, чтобы кнопки на баннерах тоже были в iOS стиле,
+       можете применить к ним похожие стили, например, более скругленные углы,
+       системные шрифты и т.д. */
+}
+
+
+
+/* --- Стили для модального окна добавления репозитория --- */
+#add-repo-modal.modal {
+    background-color: rgba(0,0,0,0.5); /* Полупрозрачный фон */
+    backdrop-filter: blur(8px);
+    align-items: center; /* Центрируем по вертикали */
+    transform: none; /* Убираем анимацию появления снизу */
+    opacity: 0;
+    display: none;
+}
+
+#add-repo-modal.modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+#add-repo-modal .modal-content {
+    background-color: #161616;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    width: 90%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+#add-repo-modal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+#add-repo-modal .modal-header h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+}
+
+#add-repo-modal .close-modal {
+    font-size: 30px;
+    color: #ff3b30;
+    cursor: pointer;
+    line-height: 1;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+#add-repo-modal .close-modal:hover {
+    opacity: 1;
+}
+
+#add-repo-modal .modal-body {
+    padding: 20px;
+    color: #ffffff;
+}
+
+#add-repo-modal label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+#add-repo-modal input[type="text"] {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    font-size: 16px;
+    color: #fff;
+    box-sizing: border-box;
+    outline: none;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+#add-repo-modal input[type="text"]:focus {
+    border-color: #007aff;
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.5);
+}
+
+#add-repo-modal .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+#add-repo-modal button {
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+#add-repo-modal #cancel-add-repo {
+    background-color: rgba(255, 59, 48, 0.2); /* Полупрозрачный красный */
+    color: #ff3b30; /* Красный текст */
+    border: none;
+}
+
+#add-repo-modal #cancel-add-repo:hover {
+    background-color: rgba(255, 59, 48, 0.3);
+}
+
+#add-repo-modal #confirm-add-repo {
+    background-color: #007aff; /* Синий */
+    color: #ffffff;
+    border: none;
+}
+
+#add-repo-modal #confirm-add-repo:hover {
+    background-color: #005ecb;
+}
+
+/* --- Стили для страницы Репозиториев --- */
+.repos-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: #161616;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    margin-bottom: 15px; /* Отступ после хедера */
+}
+
+.repos-header .section-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffffff;
+    margin: 0;
+}
+
+.add-repo-button-png {
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s ease;
+    border-radius: 50%;
+    padding: 5px;
+}
+
+.add-repo-button-png:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.add-repo-button-png img {
+    width: 24px;
+    height: 24px;
+}
+
+.repo-list-container {
+    padding: 0 20px;
+}
+
+.repo-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.repo-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.repo-item:last-child {
+    border-bottom: none;
+}
+
+.repo-icon-small { /* Иконка репозитория в списке */
+    width: 45px;
+    height: 45px;
+    border-radius: 15px;
+    margin-right: 15px;
+    flex-shrink: 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 2px;
+    box-sizing: border-box;
+}
+
+.repo-info {
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.repo-name {
+    font-size: 17px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.repo-url {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.repo-detail-page-wrapper { /* Стили для страницы деталей репозитория */
+    background-color: #161616;
+    color: #fff;
+    padding-bottom: 100px; /* Место для навигации */
+}
+
+.repo-detail-page-wrapper .repo-header {
+    background-color: #161616;
+    border-bottom: none; /* Убираем нижний разделитель */
+    padding-top: 15px;
+}
+
+.repo-detail-page-wrapper .repo-header .back-button-in-banner {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin-right: 15px; /* Отступ от кнопки назад */
+}
+
+.repo-detail-page-wrapper .repo-header h2 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffffff;
+    margin: 0;
+    flex-grow: 1; /* Занимает место */
+}
+
+.repo-detail-page-wrapper #repo-detail-icon { /* Иконка на странице деталей */
+    width: 50px;
+    height: 50px;
+    border-radius: 18px;
+    margin-right: 15px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 2px;
+    box-sizing: border-box;
+}
+
+.repo-detail-page-wrapper #repo-detail-url {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 5px;
+    flex-basis: 100%; /* Занимает свою строку */
+    padding-left: 90px; /* Отступ слева, чтобы выровнять с именем */
+}
+
+.repo-detail-page-wrapper h3 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffffff;
+    margin: 20px 20px 15px 20px; /* Отступы */
+}
+
+.repo-apps-list {
+    padding: 0 20px;
+}

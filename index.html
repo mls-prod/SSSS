@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Scarlet</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="status.css">
+    <link rel="stylesheet" href="banner.css">
+    <link rel="stylesheet" href="navbarM.css">
+    <link rel="stylesheet" href="down.css">
+    <link rel="icon" href="https://usescarlet.com/favicon.png" type="image/png">
+</head>
+<body>
+      
+            <!-- Главная страница -->
+        <div id="home-page" class="page active">
+
+    <h1>Scarlet</h1><a class="""></a>
+      <div class="slider-container">
+    <div class="slider-list">
+	  <div class="slider-item active"><img src="banner-1.png"></div>
+
+	  
+	   <div class="slider-indicators"></div>
+	 
+            
+                </div>
+            </div>
+
+
+            <section class="app-list">
+                <h2>Jailbreaks</h2>
+                <div class="app-list-items" id="all-apps-container">
+                    <!-- Здесь будут все приложения -->
+                </div>
+            </section>
+        </div>
+ </div>
+
+        <!-- Страница приложения -->
+<div id="app-detail-page" class="page app-detail-page-wrapper">
+
+    <!-- Баннер приложения -->
+    <div class="app-banner-container">
+        <img id="app-detail-banner" src="bannerapp.png" alt="Баннер приложения">
+        <!-- Кнопка "Назад" внутри баннера -->
+        <button class="back-button-in-banner" aria-label="Вернуться назад">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H6M12 5l-7 7 7 7"></path>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Блок информации о приложении (под баннером) -->
+    <div class="app-info-section-below-banner">
+        <!-- 1. Иконка слева -->
+        <div class="app-icon-wrapper">
+            <img id="app-detail-icon" class="app-icon" src="https://raw.githubusercontent.com/DebianArch64/Scarlet/refs/heads/master/icon.png" alt="Иконка приложения">
+        </div>
+
+        <!-- 2. Основная информация (Имя, Разработчик, Версия, Вес) -->
+        <div class="app-details-left">
+            <h3 id="app-detail-name">App Name</h3>
+            <p id="app-detail-developer">Developer Name</p>
+            <div class="app-meta-info">
+                <span id="app-detail-version">v1.0.0</span> • <span id="app-size">0.0 MB</span>
+            </div>
+        </div>
+
+        <!-- 3. Кнопка загрузки справа -->
+        <div class="app-details-right">
+             <button class="download-button-png" id="download-button-detail" aria-label="Скачать приложение">
+                <img src="b-install.png" alt="Скачать">
+                
+            </button>
+        </div>
+    </div>
+    <!-- Полоса разделения (опционально) -->
+    <div class="separator-line"></div>
+
+    <!-- Основной контент страницы (описание, скриншоты) -->
+    <div class="app-content">
+
+        <!-- Секция описания -->
+        <div class="app-description-section">
+            <h4>App Info</h4>
+            <div class="app-description-content">
+                <p id="app-detail-description">
+                    Scarlet 
+                    <span class="more-text">
+                        Scarlet
+                    </span>
+                </p>
+                <button class="see-more-button">See More</button>
+            </div>
+  </div>
+ </div>
+ </div>
+
+        <!-- Страница поиска -->
+
+        <div id="search-page" class="page">
+            <h1>Search</h1>
+            <input type="text" id="searchInput" placeholder="Search apps, categories or developers">
+            <div id="searchResults"></div>
+        </div>
+
+ </div>
+        <!-- Страница Download -->
+
+        <div id="download-page" class="page">
+    <div class="download-header">
+        <h1>Installed</h1>
+
+      
+        </div>
+        <div class="header-right">
+            <!-- Кнопка выбора IPA файла -->
+            <label for="ipaFileInput" class="icon-button upload-ipa-button" title="Install from IPA file">
+                <img src="ipadown.png" alt="Upload IPA"> <!-- Замените на реальный путь к иконке -->
+            </label>
+            <input type="file" id="ipaFileInput" accept=".ipa" style="display: none;">
+
+        </section>
+ </div>
+
+
+  <!-- Основное содержимое страницы -->
+    <main id="mainContent">
+
+        <!-- Секция "Installed Apps" -->
+        <section id="installedAppsSection" class="">
+            <h2 class="ssection-title">Repos</h2>
+
+  <button id="add-repo-button" class="add-repo-btn-png" aria-label="Add Repository"></button>
+ 
+            <div id="installedAppsList" class="aapp-list-items">
+                <!-- Список установленных приложений (будет генерироваться JS) -->
+                <!-- Пример: -->
+                   <div class="aapp-item">
+                    <img src="icon.png" alt="Scarlet Icon" class="aapp-icon">
+                    <div class="aapp-details">
+                        <h2 class="aapp-name">Scarlet Repo</h2>
+                        <div class="aapp-developer">https://usescarlet.com</div>
+
+                    </div>
+                    <!-- Можно добавить кнопку удаления или информации -->
+                </div>
+<div class="sseparator-line"></div>
+            </div>
+        </section>
+
+<!-- Страница репозитория (изначально скрыта) -->
+        <div id="repo-detail-page" class="page repo-detail-page-wrapper" style="display: none;">
+            <div class="repo-header">
+                <button class="back-button-in-banner" aria-label="Вернуться назад">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 12H6M12 5l-7 7 7 7"></path>
+                    </svg>
+                </button>
+                <img id="repo-detail-icon" class="aapp-icon" src="" alt="Repo Icon">
+                <h2 id="repo-detail-name">Repo Name</h2>
+                <div id="repo-detail-url">Repo URL</div>
+            </div>
+            <div class="separator-line"></div>
+            <h3>Apps</h3>
+            <div id="repo-apps-list" class="repo-apps-list">
+                <!-- Список приложений из репозитория будет генерироваться JS -->
+            </div>
+        </div>
+ </div>
+ </div>
+
+ </div>
+    <!-- Модальное окно добавления репозитория -->
+    <div id="add-repo-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Repository</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <label for="repo-url-input">JSON Repository Link:</label>
+                <input type="text" id="repo-url-input" placeholder="https://example.com/repo.json">
+            </div>
+            <div class="modal-footer">
+                <button id="cancel-add-repo">Cancel</button>
+                <button id="confirm-add-repo">Add Repo</button>
+            </div>
+        </div>
+    </div>
+
+    </main>
+ </div>
+ </div>
+
+
+
+
+
+
+     <!-- ======================== -->
+<!-- Модальное окно загрузки -->
+<!-- ======================== -->
+<div id="download-modal" class="modal">
+    <div class="modal-content ios-modal">
+        <div class="modal-header ios-modal-header">
+            <button id="close-modal-btn" class="close-button" aria-label="Закрыть">&times;</button>
+            <h2 class="ios-modal-title">Загрузка</h2>
+            <span></span> <!-- Пустой элемент для выравнивания -->
+        </div>
+        <div class="modal-body ios-modal-body">
+            <div class="progress-wrapper">
+                <div class="progress-circle-container"> <!-- Изменено имя класса -->
+                    <svg class="progress-ring" viewBox="0 0 100 100">
+                        <circle class="progress-ring-background" cx="50" cy="50" r="45"></circle>
+                        <circle class="progress-ring-progress" cx="50" cy="50" r="45"></circle>
+                    </svg>
+                    <div class="progress-percentage">0%</div>
+                </div>
+            </div>
+            <div class="app-info-section">
+                <div class="app-info-left">
+                    <img id="modal-app-icon" src="" alt="App Icon" class="app-icon-modal">
+                    <div class="app-text-modal">
+                        <h3 id="modal-app-name">App Name</h3>
+                        <p id="modal-app-developer">Developer</p>
+                    </div>
+                </div>
+                <div class="app-info-right">
+                    <span id="modal-app-size">0.0 MB</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Новое модальное окно для управления сертификатами -->
+    <div id="cert-manager-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Certificate Manager</h2>
+                <span class="close-modal" id="close-cert-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>This section allows you to manage your certificates. (Functionality not yet implemented)</p>
+                <!-- Здесь может быть список сертификатов и кнопки управления -->
+            </div>
+            <div class="modal-footer">
+                <button id="cancel-cert-manager">Cancel</button>
+                <button id="confirm-cert-manager">Manage</button> <!-- Или "OK" -->
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Модальное окно выбора IPA и Сертификата -->
+    <div id="ipa-cert-select-modal" class="modal">
+        <div class="modal-content ios-modal cert-modal-bottom"> <!-- Добавлен класс cert-modal-bottom -->
+            <div class="modal-header ios-modal-header">
+                <h2 class="ios-modal-title">Select IPA and Certificate</h2>
+                <span class="close-modal" id="close-ipa-cert-modal">&times;</span> <!-- Закрытие -->
+            </div>
+            <div class="modal-body ios-modal-body">
+                <div class="ipa-info">
+                    <p>IPA File: <strong id="selected-ipa-name">None selected</strong></p>
+                </div>
+                <div class="cert-selection">
+                    <p>Select a Certificate:</p>
+                    <div class="cert-list" id="cert-list-for-selection">
+                        <!-- Список сертификатов будет здесь -->
+                        <p class="empty-list-message">No certificates found. Please import them.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel-ipa-cert-selection">Cancel</button>
+                <button id="confirm-ipa-cert-selection">Install</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно управления Сертификатами (Manager Cert) -->
+    <div id="certificate-manager-modal" class="modal">
+        <div class="modal-content ios-modal"> <!-- Используем стили iOS модалки -->
+            <div class="modal-header">
+                <h2>Certificate Manager</h2>
+                <span class="close-modal" id="close-manager-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="cert-list-manager" id="cert-list-manager">
+                    <!-- Список сертификатов будет здесь -->
+                    <p class="empty-list-message">No certificates imported yet.</p>
+                </div>
+                <div class="import-cert-section">
+                    <h4>Import Certificate</h4>
+                    <div class="import-buttons">
+                        <button id="import-p12-button" class="import-button">Import .p12</button>
+                        <button id="import-mobileprovision-button" class="import-button">Import .mobileprovision</button>
+                    </div>
+                    <input type="file" id="p12FileInput" accept=".p12" style="display: none;">
+                    <input type="file" id="mobileprovisionFileInput" accept=".mobileprovision" style="display: none;">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="close-manager-footer-button">Close</button>
+                <!-- Кнопка Import Cert может быть в import-cert-section -->
+            </div>
+        </div>
+    </div>
+
+
+
+
+<style>
+img { pointer-events: none; }
+</style>
+
+
+    <!-- Навигационная панель -->
+    <nav class="navbar">
+        <button class="nav-button" data-page="home" id="nav-home"><img src="navhome.png" alt="Главная"></button>
+        <button class="nav-button" data-page="download" id="nav-download"><img src="navdown.png" alt="Загрузка"></button>
+        <button class="nav-button" data-page="search" id="nav-search"><img src="navsearch.png" alt="Поиск"></button>
+    </nav>
+ </div>
+
+    <script src="script.js"></script>
+    <script src="details.js"></script>
+    <script src="certmg.js"></script>
+</body>
+</html>

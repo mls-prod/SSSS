@@ -1,0 +1,971 @@
+/* --- Запрет полосок прокрутки --- */
+/* Для Webkit-браузеров (Chrome, Safari, Edge) */
+.page::-webkit-scrollbar,
+#all-apps-container::-webkit-scrollbar,
+#searchResults::-webkit-scrollbar,
+#installedAppsList::-webkit-scrollbar,
+.repo-apps-list::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    display: none;
+}
+
+/* Для Firefox */
+.page,
+#all-apps-container,
+#searchResults,
+#installedAppsList,
+.repo-apps-list,
+body {
+    scrollbar-width: none; /* Скрывает полоску прокрутки */
+    -ms-overflow-style: none; /* Для Internet Explorer и Edge */
+}
+
+
+
+/* Общие стили */
+body {
+    margin: 20px;
+    font-family: 'Roboto', sans-serif;
+    background-color: #161616;
+    color: #fff;
+    overflow-x: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    
+}
+
+h1 {
+  margin-left: 1px;
+  font-size: 35px;
+  color: #fff;
+}
+/* Основная шапка с заголовком Scarlet по центру */
+.main-header {
+    height: 0px; /* Высота шапки */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.main-header .header-title {
+    font-size: 50px; /* Увеличенный размер шрифта */
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.6); /* Красное свечение */
+}
+
+
+/* Главное содержимое */
+main {
+    flex-grow: 1;
+    padding: 20px;
+    padding-top: 90px; /* Отступ сверху, чтобы контент не перекрывался шапкой */
+    padding-bottom: 150px; /* Отступ, чтобы контент не перекрывался навбаром */
+    box-sizing: border-box;
+}
+
+/* Стили для страниц */
+.page {
+    display: none;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.page.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Featured Apps - горизонтальное расположение */
+.featured-apps {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.featured-apps h2, .app-list h2, .download-header h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.featured-apps-list {
+    margin-bottom: 30px;
+}
+
+.featured-apps-list::-webkit-scrollbar { height: 8px; }
+.featured-apps-list::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+.featured-apps-list::-webkit-scrollbar-thumb { background-color: rgba(255, 0, 0, 0.5); border-radius: 10px; }
+
+.app-item.featured {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 120px;
+    min-width: 120px;
+    flex-shrink: 0;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+.app-item.featured .app-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 16px;
+    margin-right: 15px;
+    flex-shrink: 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.app-item.featured .app-name {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+
+.app-item.featured .app-developer {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Список приложений - обычный */
+.app-list {
+    margin-bottom: 20px;
+}
+
+.app-list-items {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.app-item.regular {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 5px 0;
+    
+}
+
+.app-item.regular:last-child {
+    border-bottom: none;
+}
+
+.app-item.regular .app-icon {
+    width: 55px;
+    height: 55px;
+    border-radius: 20px;
+    margin-right: 15px;
+    flex-shrink: 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 1px;
+    box-sizing: border-box;
+}
+
+.app-item.regular .app-info {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.app-item.regular .app-name {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+
+.app-item.regular .app-developer {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.app-item.regular .download-trigger {
+    border: none;
+    display: flex;
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 30%;
+    padding: 2px;
+}
+
+.app-item.regular .download-trigger:hover {
+    
+}
+
+.app-item.regular .download-trigger img {
+    width: 60px;
+    height: 60px;
+    
+}
+
+/* Кнопка "Скачать" на странице деталей */
+
+
+/* Стиль для кнопки "Назад" */
+.back-button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    display: flex;
+    align-items: center;
+    z-index: 1015;
+}
+
+.back-button:before {
+    content: '\2190';
+    margin-right: 8px;
+    font-size: 22px;
+}
+
+/* Стили для страницы деталей приложения */
+/* --- Обертка баннера --- */
+.app-banner-wrapper {
+    position: relative;
+    width: 100%;
+    height: 250px; /* Высота баннера, увеличена */
+    margin-bottom: 110px; /* Увеличен отступ снизу, чтобы нижележащий блок не перекрывался */
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    
+}
+
+.app-banner-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* --- Кнопка "Назад" внутри баннера --- */
+.back-button-in-banner {
+    position: absolute;
+    top: 15px; /* Отступ сверху */
+    left: 15px; /* Отступ слева */
+    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
+    border: none;
+    border-radius: 50%; /* Круглая форма */
+    cursor: pointer;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px; /* Размер кнопки */
+    height: 44px;
+    z-index: 10; /* Выше баннера */
+    transition: background-color 0.2s ease;
+}
+
+.back-button-in-banner:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.back-button-in-banner svg {
+    stroke: #ffffff;
+    width: 24px;
+    height: 24px;
+}
+
+/* --- Информация о приложении под баннером --- */
+.app-banner-container {
+    position: relative;
+    width: 100%;
+    height: 170px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 23px;
+    
+}
+
+.app-banner-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* --- Кнопка "Назад" внутри баннера --- */
+.back-button-in-banner {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    z-index: 10;
+    transition: background-color 0.2s ease;
+}
+
+.back-button-in-banner:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.back-button-in-banner svg {
+    stroke: #ffffff;
+    width: 24px;
+    height: 24px;
+}
+
+/* --- Блок информации под баннером --- */
+/* --- Блок информации под баннером --- */
+.app-info-section-below-banner {
+    display: flex;
+    align-items: center; /* Центрируем элементы по вертикали */
+    padding: -5px -5px;
+    margin-top: 5px; /* Приподнимаем блок */
+    margin-left: 5px;
+    margin-right: 5px;
+    
+    border-radius: 15px;
+    
+    z-index: 10;
+    height: 100px; /* Фиксированная высота */
+    box-sizing: border-box;
+}
+
+.app-icon-wrapper {
+    width: 70px;
+    height: 70px;
+    border-radius: 70%;
+    background-color: rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0; /* Иконка не будет сжиматься */
+    margin-right: 20px; /* Отступ справа от иконки */
+}
+
+.app-icon {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    border-radius: 40%;
+}
+
+.app-details-left {
+    display: flex;
+    flex-direction: column; /* Имя, разработчик, мета-инфо идут вертикально */
+    justify-content: center;
+    margin-right: auto; /* Занимает все свободное пространство слева */
+    min-width: 150px; /* Минимальная ширина */
+    flex-grow: 1;
+}
+
+.app-details-left h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 3px 0;
+    letter-spacing: 0.4px;
+}
+
+.app-details-left p {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+    letter-spacing: 0.3px;
+}
+
+.app-meta-info {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 8px; /* Небольшой отступ от разработчика */
+    letter-spacing: 0.3px;
+}
+
+.app-details-right {
+    display: flex;
+    align-items: center; /* Центрируем кнопку по вертикали */
+    flex-shrink: 0; /* Кнопка не должна сжиматься */
+    margin-left: auto; /* Прижимаем этот блок максимально вправо */
+}
+
+.download-button-png {
+    background: none; /* Убираем фон кнопки */
+    border: none; /* Убираем рамку */
+    cursor: pointer;
+    padding: 0; /* Убираем внутренние отступы */
+    display: flex; /* Чтобы изображение внутри кнопки центрировалось */
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.download-button-png img {
+    width: 70px; /* Размер вашей PNG кнопки, настройте по необходимости */
+    height: 70px;
+    object-fit: contain; /* Чтобы изображение не искажалось */
+    display: block; /* Убирает лишний нижний отступ у изображения */
+}
+
+.download-button-png:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+
+/* --- Полоса разделения (опционально) --- */
+.separator-line {
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.1);
+    margin: 5px 15px; /* Отступы сверху/снизу и по бокам */
+}
+
+/* --- Основной контент --- */
+.app-content {
+    padding: 0 15px; /* Общие отступы для контента */
+}
+
+/* --- Секция описания --- */
+.app-description-section {
+    margin-bottom: 25px;
+}
+
+.app-description-section h4 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    letter-spacing: 0.5px;
+}
+
+.app-description-content {
+    
+    border-radius: 15px;
+    padding: 1px 1px;
+    position: relative;
+}
+
+.app-description-content p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+    max-height: 100px; /* Начальная высота */
+    overflow: hidden;
+    transition: max-height 0.4s ease-in-out;
+}
+
+.app-description-content p.expanded {
+    max-height: 1000px;
+}
+
+.app-description-content .more-text {
+    display: none;
+}
+
+.app-description-content.expanded .more-text {
+    display: inline;
+}
+
+.see-more-button {
+    background: none;
+    border: none;
+    color: #007AFF;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 5px 0;
+    margin-top: 10px;
+    text-align: left;
+    display: block;
+    width: 100%;
+}
+
+.see-more-button:hover {
+    text-decoration: underline;
+}
+
+/* --- Скриншоты --- */
+.app-screenshots-section {
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+
+.app-screenshots-section h4 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    padding: 0 15px;
+    letter-spacing: 0.5px;
+}
+
+.screenshots-carousel {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    padding: 0 15px 20px;
+    scroll-behavior: smooth;
+}
+
+.screenshots-carousel::-webkit-scrollbar {
+    height: 8px;
+}
+.screenshots-carousel::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+.screenshots-carousel::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+.screenshots-carousel::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.screenshot-item {
+    flex-shrink: 0;
+    width: 250px;
+    height: 150px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.screenshot-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* --- Адаптивность --- */
+
+/* Стили для секции поиска */
+#search-page input[type="text"] {
+    width: 100%;
+    padding: 15px 15px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+#search-page input[type="text"]::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+#searchResults {
+    margin-top: 20px;
+}
+
+/* Стили для страницы Download */
+.download-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #333;
+    position: sticky; /* Фиксируем шапку */
+    top: 0;
+    z-index: 1000;
+}
+
+.header-left, .header-right {
+    display: flex;
+    align-items: center;
+}
+
+.icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    border-radius: 10%;
+    transform: translate(320px, -100px); 
+}
+
+.icon-button:hover { 
+    
+    
+}
+
+.icon-button svg { /* Стили для SVG иконок */
+    stroke: currentColor; /* Цвет иконки наследуется от цвета кнопки */
+    width: 24px;
+    height: 24px;
+}
+
+.icon-button img { /* Стили для PNG иконок */
+    width: 45px;
+    height: 45px;
+    display: block;
+}
+
+.upload-ipa-button {
+    margin-right: 10px;
+    /* Возможно, здесь нужна стилизация, чтобы кнопка была не круглая, а прямоугольная */
+}
+
+.ssection-title {
+    font-size: 17px;
+    
+    margin-bottom: 20px;
+    color: #fff;
+    transform: translate(-20px, -160px); 
+}
+
+.aapp-list-items, .repo-list { /* Объединил стили для списков */
+    
+    border-radius: 10px;
+    padding: 15px;
+    transform: translate(-20px, -210px); 
+}
+
+.aapp-icon, .repo-icon {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    border-radius: 30%;
+}
+
+.aapp-item, .repo-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 1px;
+    
+    border-radius: 8px;
+    cursor: pointer;
+    
+    transform: translate(-20px, -5px); 
+    
+}
+
+.aapp-name {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 450;
+    padding: 5px 0;
+    margin-top: 10px;
+    text-align: left;
+    display: block;
+    width: 100%;
+    transform: translate(15px, 5px); 
+}
+
+.aapp-developer {
+    background: none;
+    border: none;
+    color: #808080;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 400;
+    padding: 5px 0;
+    margin-top: 10px;
+    text-align: left;
+    display: block;
+    width: 100%;
+    transform: translate(15px, -15px); 
+}
+
+.sseparator-line {
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.1);
+    margin: 20px 1px; /* Отступы сверху/снизу и по бокам */
+    transform: translate(45px, -40px); 
+}
+
+
+
+.aapp-item:hover, .repo-item:hover {
+    
+    
+}
+
+.aapp-item:last-child, .repo-item:last-child {
+    margin-bottom: 0;
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.add-repo-button {
+    background-color: #FF0000;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.4);
+    transition: transform 0.3s ease;
+}
+
+.add-repo-button:hover {
+    transform: scale(1.05);
+    width: 5px;
+    height: 5px;
+    
+}
+
+.installed-apps-section, .repos-section {
+    margin-bottom: 30px;
+}
+
+.installed-apps-section h3, .repos-section h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.installed-apps-list, .repo-list {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.installed-app-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.installed-app-item:last-child {
+    margin-bottom: 0;
+}
+
+.installed-app-item .app-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.installed-app-item .app-info {
+    flex-grow: 1;
+}
+
+.installed-app-item .app-name {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.installed-app-item .app-developer {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Стили для поля добавления репозитория */
+.repo-input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.repo-input-group input[type="text"] {
+    flex-grow: 1;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    color: #fff;
+}
+
+.repo-input-group button {
+    padding: 10px 15px;
+    background-color: #FF0000;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.repo-input-group button:hover {
+    background-color: #cc0000;
+}
+
+/* Отображение добавленного репозитория */
+.repo-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+}
+
+.repo-item .repo-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.repo-item .repo-name {
+    font-size: 16px;
+    font-weight: bold;
+    flex-grow: 1;
+}
+
+.repo-item .repo-apps-count {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-right: 15px;
+}
+
+/* Навигационная панель */
+
+/* Панель загрузки */
+.download-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(26, 26, 26, 0.9);
+    padding: 15px 20px;
+    box-sizing: border-box;
+    transform: translateY(100%);
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    z-index: 1002;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.download-panel.visible {
+    transform: translateY(0);
+}
+
+.download-panel .app-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    margin-right: 15px;
+    flex-shrink: 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.download-panel .download-info {
+    flex-grow: 1;
+}
+
+.download-panel .app-name {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.download-panel .download-progress-container {
+    width: 100%;
+    height: 6px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.download-panel .download-progress-bar {
+    height: 100%;
+    background-color: #FF0000;
+    width: 0%;
+    transition: width 0.1s linear;
+}
+
+.download-panel .file-size {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 5px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .featured-apps-list {
+        justify-content: center;
+    }
+    .app-item.featured {
+        width: 45%;
+        min-width: unset;
+    }
+    .navbar {
+        width: 90%;
+    }
+    .main-header {
+        height: 60px;
+    }
+    .main-header .header-title {
+        font-size: 28px;
+    }
+    main {
+        padding-top: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-header .header-title {
+        font-size: 24px;
+    }
+    .navbar {
+        height: 50px;
+        bottom: 10px;
+    }
+    .nav-button {
+        width: 35px;
+        height: 35px;
+        margin: 0 3px;
+    }
+    .nav-button img {
+        width: 24px;
+        height: 24px;
+    }
+    .app-item.featured {
+        width: 80%;
+    }
+    main {
+        padding-bottom: 70px;
+    }
+}
