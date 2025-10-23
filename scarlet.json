@@ -1,23 +1,22 @@
 {
   "META": {
-    "repoName": "Repo Name",
+    "repoName": "Scarlet Web",
     "repoIcon": "https://usescarlet.com/favicon.png"
   },
-  "Games": [
+  "Jailbreaks": [
     {
       "name": "iPogo",
-      "icon": "icon.png",
+      "icon": "https://avatars.mds.yandex.net/i?id=0e7c2fdfb03946c844beecfea2386c22_sr-5222087-images-thumbs&n=13",
       "version": "0.367.1",
       "down": "https://ipogo.app/download/ipogo-3.8.6.ipa",
       "category": "Hacked Games",
       "description": "With iPogo you get a full set of tools to help you be the best. iPogo is a Simple, Powerful and Intuitive App.",
       "bundleID": "com.nianticlabs.pokemongo",
       "appstore": "com.nianticlabs.pokemongo"
-    }
-  ],
-  "Tweaked": [
+    },
     {
       "name": "Sposify++",
+      "icon": "https://m.media-amazon.com/images/I/31B2Nyzd8XL._AC_UL960_QL65_.png",
       "version": "8.6.42",
       "down": "https://resources.usescarlet.com/repo/IPAs/Spotify.ipa",
       "category": "Tweaked Apps",
@@ -30,9 +29,7 @@
         "https://usescarlet.com/debs/SposifyFix.dylib"
       ],
       "changelog": "- Updated Spotilife to v1.8"
-    }
-  ],
-  "Jailbreaks": [
+    },
     {
       "name": "Dopamine",
       "version": "2.2.2",
@@ -51,9 +48,7 @@
         "https://ellekit.space/dopamine/",
         "https://twitter.com/opa334dev"
       ]
-    }
-  ],
-  "Emulators": [
+    },
     {
       "name": "iNDS",
       "version": "1.10.8",
@@ -63,13 +58,11 @@
       "description": "",
       "bundleID": "net.nerd.iNDS",
       "enableBackup": true
-    }
-  ],
-  "Other": [
+    },
     {
       "name": "Scarlet",
       "version": "1.0",
-      "icon": "https://usescarlet.com/icon.png",
+      "icon": "icon.png",
       "down": "https://resources.usescarlet.com/repo/IPAs/ScarletAlpha.ipa",
       "description": "This is the standard version of Scarlet. Allowing you to tweak and sideload your apps along with import your own certificates or use with a paid developer account entirely computerless.",
       "bundleID": "com.DebianArch.Scarlet",

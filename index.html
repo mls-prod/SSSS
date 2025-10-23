@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="banner.css">
     <link rel="stylesheet" href="navbarM.css">
     <link rel="stylesheet" href="down.css">
+    <link rel="stylesheet" href="ac.css">
     <link rel="icon" href="https://usescarlet.com/favicon.png" type="image/png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
   
@@ -28,6 +29,47 @@
     <h1>Scarlet</h1>
    <h5>beta</h5>
     
+
+<button id="account-button" class="account-button">
+            <i class="fas fa-user"></i>
+        </button>
+
+        <div id="account-modal" class="mmodal">
+            <div class="mmodal-content">
+                <span class="cclose-button">&times;</span>
+                <h2>Scarlet Account</h2>
+
+                <div id="login-section">
+                    <input type="text" id="username-login" placeholder="Username">
+                    <input type="password" id="password-login" placeholder="Password">
+                    <button id="login-button">Sign</button>
+                    <p>No account? <a href="#" id="register-link">Register</a></p>
+                </div>
+
+                <div id="registration-section" style="display: none;">
+                    <input type="text" id="username-register" placeholder=" Username">
+                    <input type="password" id="password-register" placeholder=" Password">
+                    <input type="password" id="password-confirm" placeholder="Add Password">
+                    <button id="register-button">To Register</button>
+                    <p>Already have an account? <a href="#" id="login-link">Sign</a></p>
+                </div>
+
+                <div id="user-info-section" style="display: none;">
+                    <div class="user-details">
+                        <div class="user-status">
+                            <img id="user-avatar" src="" alt="Avatar" class="avatar-icon">
+                            <span id="status-text"></span>
+                        </div>
+                        <p>Credits: <span id="user-credits"></span></p>
+                    </div>
+                    <div class="account-actions">
+                        <button id="change-password-button">Change the password</button>
+                        <button id="logout-button">Log out</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
       <div class="slider-container">
     <div class="slider-list">
 	  <div class="slider-item active"><img src="banner-1.png"></div>
@@ -44,7 +86,7 @@
             <section class="app-list">
   
    
-                <h2>Jailbreaks</h2>
+                <h2>Apps</h2>
                 <div class="app-list-items" id="all-apps-container">
                     <!-- Здесь будут все приложения -->
                 </div>
@@ -317,7 +359,7 @@ img { pointer-events: none; }
     <script src="certmg.js"></script>
     <script src="script.js"></script>
     <script src="details.js"></script>
-    <script src="sw.js"></script>
+    <script src="ac.js"></script>
  
 </body>
 </html>

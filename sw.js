@@ -1,2 +1,11 @@
-importScripts("https://cdn.pushalert.co/sw-55823_2.js");
-
+var comm_url = "https://request.pushalert.co/";
+var default_title = "";
+var default_message = "";
+var default_icon = "https://cdn.pushalert.co/icons/default_icon-54618_2.png";
+var default_url = "";
+var last_updated = "8399938210";
+var client_id = 54618;
+var domain_id = 2;
+var pa_subdomain = "";
+var appPublicKey = 'BLTN0vnQsDyyBZFYIvX8aQO48LwllKSSLDUp4Zg0iITk1lMp4ywQPs+GQI31NeofUwsgvFucO40CoP0LNuhXA0Y=';
+importScripts("https://cdn.pushalert.co/sw-external-payload.js?t="+last_updated);
