@@ -1,6 +1,6 @@
 // service-worker.js
 
-const CACHE_NAME = 'scarletVcW'; // Уникальное имя для вашего кэша
+const CACHE_NAME = 'scarletBNT'; // Уникальное имя для вашего кэша
 const urlsToCache = [
     '/', 
     '/index.html', 
